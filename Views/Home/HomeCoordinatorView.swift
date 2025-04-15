@@ -20,6 +20,7 @@ struct HomeCoordinatorView: View {
                 .sheet(item: $coordinator.sheet) { sheet in
                     coordinator.build(sheet: sheet)
                 }
+            
         }
         
     }
