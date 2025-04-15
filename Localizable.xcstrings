@@ -1,0 +1,103 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%@" : {
+
+    },
+    "%lld" : {
+
+    },
+    "01" : {
+
+    },
+    "255" : {
+
+    },
+    "fig.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Driver & Team Stats"
+          }
+        }
+      }
+    },
+    "getstarted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get Started !"
+          }
+        }
+      }
+    },
+    "header.upcoming" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upcoming Race"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Próxima Corrida"
+          }
+        }
+      }
+    },
+    "Home" : {
+
+    },
+    "onboard2.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Race Calendar"
+          }
+        }
+      }
+    },
+    "onboard3.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Push Notifications"
+          }
+        }
+      }
+    },
+    "Pos" : {
+
+    },
+    "Pts" : {
+
+    },
+    "Schedule" : {
+
+    },
+    "see all > " : {
+
+    },
+    "Standings" : {
+
+    },
+    "Type" : {
+
+    }
+  },
+  "version" : "1.0"
+}
