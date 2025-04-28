@@ -4,16 +4,46 @@
     "" : {
 
     },
+    " %@ 2025" : {
+
+    },
     "%@" : {
 
     },
     "%lld" : {
 
     },
+    "0" : {
+
+    },
     "01" : {
 
     },
-    "255" : {
+    "4" : {
+
+    },
+    "05" : {
+
+    },
+    "12" : {
+
+    },
+    "22" : {
+
+    },
+    "63" : {
+
+    },
+    "69" : {
+
+    },
+    "250" : {
+
+    },
+    "Championship stats" : {
+
+    },
+    "F1 2025" : {
 
     },
     "fig.title" : {
@@ -58,6 +88,34 @@
     "Home" : {
 
     },
+    "Lando Norris" : {
+
+    },
+    "Mclaren" : {
+
+    },
+    "onboard1.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Explore detailed stats for all drivers and teams."
+          }
+        }
+      }
+    },
+    "onboard2.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never miss a race with our interactivecalendar."
+          }
+        }
+      }
+    },
     "onboard2.title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -65,6 +123,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Race Calendar"
+          }
+        }
+      }
+    },
+    "onboard3.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get notified for qualifying results, race start times, and major updates."
           }
         }
       }
@@ -80,7 +149,19 @@
         }
       }
     },
+    "Podiums" : {
+
+    },
+    "Points" : {
+
+    },
+    "Poles" : {
+
+    },
     "Pos" : {
+
+    },
+    "Position" : {
 
     },
     "Pts" : {
@@ -92,10 +173,19 @@
     "see all > " : {
 
     },
+    "Since Debut" : {
+
+    },
     "Standings" : {
 
     },
     "Type" : {
+
+    },
+    "Wins" : {
+
+    },
+    "World Championships" : {
 
     }
   },

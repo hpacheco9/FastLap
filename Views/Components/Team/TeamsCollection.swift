@@ -9,12 +9,12 @@ import SwiftUI
 
 struct TeamsCollection: View {
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             LazyVStack {
                 
                     ForEach(1..<21) { index in
-                        CardTeam(Name: "Mercedes-AMG Petronas", action: {}, pos: "\(index)", points: "255", image: "https://media.api-sports.io/formula-1/teams/17.png")
-                            .padding(.vertical,20)
+                        CardTeam(Name: "Mercedes-AMG Petronas", action: {}, pos: "\(index)", points: "255", image: "https://media.api-sports.io/formula-1/teams/17.png").padding(.vertical, 0).padding(10)
+                            
                     }
                 
             }

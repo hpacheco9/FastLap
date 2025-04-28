@@ -9,19 +9,16 @@ import SwiftUI
 
 struct CardRace_: View {
     
-    let Race: String
-    let GP: String
-    let Day: String
-    let Time: String
-    let Month: String
-    let Number: Int
-    let type: String
-    let image: String
-    let flag: String
-    let action: () -> Void
-    let Status : Status
+    let schedule: ScheduleModel
+    let status: Status
+    
+    
+     
     
     @Environment(\.colorScheme) var colorScheme
+    
+    
+    
     
     var body: some View {
         ZStack {
@@ -39,106 +36,126 @@ struct CardRace_: View {
                 )
             
             VStack {
-                Button (action: action){
-                    Label("",systemImage: "chevron.right")
-                }
-                .foregroundColor(.primary)
-                .font(.system(size: 20, weight: .bold))
+                Label("", systemImage: "chevron.right")
+                        .foregroundColor(.primary)
+                        .font(.system(size: 20, weight: .bold))
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.trailing, 10)
-            .padding(.bottom, 220)
+            .padding(.bottom, 210)
             
             // header
-            VStack (alignment: .leading) {
-                HStack{
-                    Image(flag)
+            VStack(alignment: .leading) {
+                HStack {
+                    Image(schedule.competition.location.country)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 15)
-                        
                     
                     VStack {
-                        Text(GP)
+                        Text("GP " + schedule.competition.location.country)
                             .foregroundStyle(.primary)
                             .font(.system(size: 16, weight: .semibold))
                     }
-                }.frame(alignment: .top)
+                }
+                .frame(alignment: .top)
+                .padding(.bottom, 5)
                 
-                Text(Race)
-                    .font(.system(size: 24, weight: .bold))
+                Text(schedule.circuit.name)
+                    .font(.system(size: 20, weight: .bold))
                     .foregroundColor(.primary)
                 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding(.leading, 20)
-            .padding(.top, 20)
+            .padding(.top, 25)
             .padding(.bottom, 200)
             
-                HStack {
-                    Image(image)
-                        .resizable()
-                        .scaledToFit()
-                        .shadow(color: .orange.opacity(1), radius: 0, x: 2, y: 6)
-                        .frame(maxWidth: 190, maxHeight: 220, alignment: .leading)
-                        .padding(.leading, 10)
-                        
-                    Text("\(Number)")
-                        .font(.system(size: 120, weight: .medium))
-                        .foregroundColor(.orange.opacity(0.8))
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .padding(.trailing, 10)
-                }
-                .frame(maxWidth: .infinity, maxHeight: 200, alignment: .leading)
-                .padding(.bottom, 10)
+            HStack {
+                Image(schedule.circuit.image)
+                    .resizable()
+                    .scaledToFit()
+                    .shadow(color: .orange.opacity(1), radius: 0, x: 2, y: 6)
+                    .frame(maxWidth: 190, maxHeight: 220, alignment: .leading)
+                    .padding(.leading, 10)
+                
+                Text("\(schedule.circuit.id)".addZero())
+                    .font(.system(size: 120, weight: .medium))
+                    .foregroundColor(.orange.opacity(0.8))
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.trailing, 10)
+            }
+            .frame(maxWidth: .infinity, maxHeight: 200, alignment: .leading)
+            .padding(.bottom, 10)
             
             HStack {
                 Rectangle().fill(Color.orange).frame(width: 2, height: 50, alignment: .center).padding(.leading, 15.5)
                 
-                VStack() {
-                    Text("\(Day)")
+                VStack(alignment: .leading){
+                    Text(schedule.day.addZero())
                         .font(.system(size: 40, weight: .medium))
                         .foregroundColor(.orange)
                     
-                    Text("\(Month)")
+                    Text(" \(schedule.month) 2025")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.gray)
                         .padding(.bottom, 5)
-                
+                    
                 }
                 Circle().fill(Color.primary).frame(width: 5, height: 5, alignment: .center).padding(.trailing, 2)
                     .padding(.leading, 2)
                 
                 
                 VStack {
-                    Text("\(type)")
+                    Text("\(schedule.type)")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.primary)
                         .padding(.bottom, 2)
                     
-                    Text("\(Time)")
+                    Text("")
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.gray)
-                        
+                    
                 }.padding(.trailing, 20)
                 
-                
-                LiveCapsule(status: .soon)
-               
+                LiveCapsule(status: status)
                 
             }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                 .padding(.bottom, 10)
-                
-            
-
         }
-        .frame(maxWidth: .infinity, maxHeight: 250)
-        .padding(3)
-    
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        
+        
+      
+        
     }
 }
 
-
 #Preview {
-    CardRace_(Race: "Circuit de Barcelona-Catalunya", GP: "GP Japan", Day: "06", Time:"9.30 AM", Month: "April 25'", Number: 25, type: "FP2", image: "Barca", flag: "JP", action: {}, Status: .soon)
+    
+    let scheduleModel = ScheduleModel(
+        id: 1671,
+        competition: ScheduleModel.Competition(
+            id: 2,
+            name: "Bahrain Grand Prix",
+            location: ScheduleModel.Competition.Location(
+                country: "Bahrain",
+                city: "Sakhir"
+            )
+        ),
+        circuit: ScheduleModel.Circuit(
+            id: 2,
+            name: "Bahrain International Circuit",
+            image: "ChinaGP"
+        ),
+        type: "Race",
+        day: "06",
+        month: "April",
+        timezone: "utc",
+        status: "Completed"
+    )
+
+    
+    
+    CardRace_(schedule: scheduleModel, status: .soon)
 }

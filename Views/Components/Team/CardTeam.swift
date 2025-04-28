@@ -50,13 +50,15 @@ struct CardTeam: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(Name)
-                            .font(.system(size: 36, weight: .bold))
+                            .font(.system(size: 28, weight: .bold))
                             .foregroundColor(.primary)
+                    
                     }
                     .frame(width: 300)
+                
                 }
-                .padding(.leading, 20)
                 .padding(.top, 10)
+                .padding(.leading, 10)
                 
                 // Pos e Pts
                 HStack(alignment: .bottom) {
@@ -64,7 +66,7 @@ struct CardTeam: View {
                         Text("Pos")
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.gray)
-                        Text(pos)
+                        Text(pos.addZero())
                             .font(.system(size: 40, weight: .bold))
                             .foregroundColor(.primary)
                     }
@@ -75,7 +77,7 @@ struct CardTeam: View {
                         Text("Pts")
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.gray)
-                        Text(points)
+                        Text(points.addZero())
                             .font(.system(size: 40, weight: .bold))
                             .foregroundColor(.primary)
                     }
@@ -86,7 +88,6 @@ struct CardTeam: View {
                     ZStack {
                         HStack {
                             ZStack {
-                                // image of driver
                                 AsyncImage(url: URL(string: image)) { image in
                                     image
                                         .resizable()
@@ -109,8 +110,8 @@ struct CardTeam: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: 250)
-        .padding(3)
+        .frame(maxWidth: .infinity, maxHeight: 280)
+        
     }
 }
 

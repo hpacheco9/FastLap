@@ -16,13 +16,8 @@ struct HomeCoordinatorView: View {
             coordinator.build(page: .home)
                 .navigationDestination(for: Page.self){ page in
                     coordinator.build(page: page)
-                }
-                .sheet(item: $coordinator.sheet) { sheet in
-                    coordinator.build(sheet: sheet)
-                }
-            
+            }
         }
-        
     }
 }
 

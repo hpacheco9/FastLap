@@ -14,20 +14,62 @@ struct ScheduleView: View {
         
         switch scheduleTypes {
         case .upcoming:
-            ScrollView {
+            ScrollView(showsIndicators: false){
                 LazyVStack {
                     ForEach(1..<21) { index in
-                        CardRace_(Race: "Circuit de Barcelona-Catalunya", GP: "GP Japan", Day: "06", Time:"9.30 AM", Month: "April 25'", Number: 25, type: "FP2", image: "canada", flag: "JP", action: {}, Status: .soon)
-                            .padding(.vertical, 20)
+                        
+                        
+                        CardRace_(schedule: ScheduleModel(
+                            id: 1671,
+                            competition: ScheduleModel.Competition(
+                                id: 2,
+                                name: "Bahrain Grand Prix",
+                                location: ScheduleModel.Competition.Location(
+                                    country: "Bahrain",
+                                    city: "Sakhir"
+                                )
+                            ),
+                            circuit: ScheduleModel.Circuit(
+                                id: 2,
+                                name: "Bahrain International Circuit", image: "ChinaGP",
+                            ),
+                            type: "Race",
+                            day: "07",
+                            month: "March",
+                            timezone: "utc",
+                            status: "Completed"
+                        ), status: .live).padding(.vertical, 0).padding(10)
+                            
                     }
                 }
             }
             
         case .past:
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 LazyVStack {
-                    CardRace_(Race: "Circuit de Barcelona-Catalunya", GP: "GP Japan", Day: "06", Time:"9.30 AM", Month: "April 25'", Number: 25, type: "FP2", image: "japan", flag: "JP", action: {}, Status: .live)
-                        .padding(.vertical, 25)
+                    
+                    CardRace_(schedule: ScheduleModel(
+                        id: 1671,
+                        competition: ScheduleModel.Competition(
+                            id: 2,
+                            name: "Bahrain Grand Prix",
+                            location: ScheduleModel.Competition.Location(
+                                country: "Bahrain",
+                                city: "Sakhir"
+                            )
+                        ),
+                        circuit: ScheduleModel.Circuit(
+                            id: 2,
+                            name: "Bahrain International Circuit",
+                            image: "ChinaGP"
+                        ),
+                        type: "Race",
+                        day: "10",
+                        month: "April",
+                        timezone: "utc",
+                        status: "Completed"
+                    ), status: .live).padding(.vertical, 0).padding(10)
+                        
                 }
             }
         }

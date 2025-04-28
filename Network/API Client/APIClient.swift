@@ -26,7 +26,10 @@ extension APIClient: APIClientFetchable {
         guard let url =  endpoint.url else {
             throw URLError(.badURL)
         }
-        let (data, response) = try await session.data(from: url)
+        
+        let urlRequest = endpoint.urlRequest(url: url)
+        
+        let (data, response) = try await session.data(for: urlRequest)
     
         guard response is HTTPURLResponse else {
             throw URLError(.badServerResponse)

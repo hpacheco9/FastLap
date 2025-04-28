@@ -29,9 +29,7 @@ enum HomeEndpoint: Endpointable {
         case let .rankings(season), let .schedule(season):
             [URLQueryItem(name: "season", value: season)]
         }
-        
     }
-
 }
 
 

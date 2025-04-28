@@ -29,11 +29,9 @@ struct Schedule: View {
             .pickerStyle(.segmented)
             .padding()
             
-            
             ScheduleView(scheduleTypes: type)
 
         }
-        .navigationBarBackButtonHidden(true)
         .navigationTitle("Schedule")
         .navigationBarTitleDisplayMode(.inline)
          

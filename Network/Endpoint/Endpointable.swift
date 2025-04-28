@@ -30,6 +30,8 @@ extension Endpointable {
         "x-rapidapi-key": "3798c3857b8b8825d148f2416dc5e007"]
     }
     
+  
+    
     var url: URL? {
         
         var components = URLComponents()
@@ -39,7 +41,22 @@ extension Endpointable {
         components.queryItems = parameters
 
         return components.url
+        
     }
+    
+    func urlRequest(url: URL) -> URLRequest {
+        
+       var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = method.rawValue
+        headers.forEach { urlRequest.addValue($0.value, forHTTPHeaderField: $0.key) }
+        
+        return urlRequest
+        
+    }
+    
+
+    
+    
 }
 
 

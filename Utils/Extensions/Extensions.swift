@@ -15,3 +15,22 @@ extension String {
     }
 }
 
+
+extension Int {
+    func montNameMonth() -> String {
+        guard (1...12).contains(self) else {
+            return ""
+        }
+        return DateFormatter().monthSymbols[self - 1]
+    }
+}
+
+
+extension String {
+    func addZero() -> String {
+        if self.count == 1 {
+            return "0" + self
+        }
+        return self
+    }
+}

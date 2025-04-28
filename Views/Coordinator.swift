@@ -8,20 +8,20 @@
 import SwiftUI
 
 enum Page: String, Identifiable {
-    case home, standings, shcedule
+    case home, standings, shcedule, driverprofile
 
     var id : String {
         self.rawValue
     }
 }
 
-enum Sheet: String, Identifiable {
+/*enum Sheet: String, Identifiable {
     case driverprofile
     
     var id : String {
         self.rawValue
     }
-}
+}*/
 
 
 enum Fullcover: String, Identifiable {
@@ -35,7 +35,7 @@ enum Fullcover: String, Identifiable {
 class Coordinator: ObservableObject {
     
     @Published var path = NavigationPath()
-    @Published var sheet: Sheet?
+   // @Published var sheet: Sheet?
     @Published var fullcover: Fullcover?
     
     
@@ -44,13 +44,13 @@ class Coordinator: ObservableObject {
         path.append(page)
     }
     
-    func presentSheet(sheet: Sheet) {
+  /*  func presentSheet(sheet: Sheet) {
         self.sheet = sheet
     }
     
     func dismissSheet() {
         self.sheet = nil
-    }
+    }*/
     
     func presentFullcover(fullcover: Fullcover) {
         self.fullcover = fullcover
@@ -72,22 +72,31 @@ class Coordinator: ObservableObject {
     func build(page: Page) -> some View {
         switch page {
         case .home:
-            Home()
+            Home(
+                viewModel: HomeViewModel(
+                    dependencies: .init(
+                        service: Homeservice(client: APIClient(session: URLSession(configuration: .default)))
+                    )
+                )
+            )
         case .standings:
             Standings()
         case .shcedule:
             Schedule()
+        case .driverprofile:
+            DriverProfile()
         }
+        
     }
     
 
-    @ViewBuilder
+  /*  @ViewBuilder
     func build(sheet: Sheet) -> some View {
         switch sheet {
         case .driverprofile:
             DriverProfile()
         }
-    }
+    }*/
     
     
 }
