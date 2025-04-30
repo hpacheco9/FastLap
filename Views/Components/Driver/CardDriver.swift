@@ -138,9 +138,9 @@ struct CardDriver: View {
             name: "Max Verstappen",
             number: 33,
             abbreviation: "VER",
-            imageUrl: "teste"
+            imageUrl: "https://media.api-sports.io/formula-1/drivers/49.png"
         ),
-        team: DriverModel.Team(id: 1, name: "Red Bull Racing", logo: "Teste"),
+        team: DriverModel.Team(id: 1, name: "Red Bull Racing", logo: "redbull"),
         points: 55,
         wins: 3,
         behind: 0,

@@ -9,36 +9,40 @@ import SwiftUI
 
 struct DriversColletion: View {
     
-    @EnvironmentObject var coordinator: Coordinator
     
-    let driverModel = DriverModel(
-        position: 1,
-        driver: DriverModel.Driver(
-            id: 1,
-            name: "Max Verstappen",
-            number: 33,
-            abbreviation: "VER",
-            imageUrl: "teste"
-        ),
-        team: DriverModel.Team(id: 1, name: "Red Bull Racing", logo: "Teste"),
-        points: 55,
-        wins: 3,
-        behind: 0,
-        season: 2023)
+    
+    let drivers: [DriverModel]
     
     var body: some View {
         ScrollView(showsIndicators: false){
             LazyVStack {
-                ForEach(1..<21) { index in
-                   
-                    CardDriver(driver: driverModel)
-                    
+                ForEach(drivers, id: \.driver.id) { driver in
+                    CardDriver(driver: driver)
                 }
             }
         }
     }
 }
 
+
+
 #Preview {
-    DriversColletion()
+    DriversColletion(drivers: [
+            DriverModel(
+                position: 1,
+                driver: DriverModel.Driver(
+                    id: 1,
+                    name: "Max Verstappen",
+                    number: 1,
+                    abbreviation: "VER",
+                    imageUrl: "https://example.com/verstappen.jpg"
+                ),
+                team: DriverModel.Team(id: 3, name: "Red Bull Racing", logo: "redbull_logo"),
+                points: 395,
+                wins: 7,
+                behind: 0,
+                season: 2025
+            )
+        ])
+        
 }

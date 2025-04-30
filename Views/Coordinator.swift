@@ -80,7 +80,9 @@ class Coordinator: ObservableObject {
                 )
             )
         case .standings:
-            Standings()
+            Standings(viewModel:StandingsViewModel(
+                            dependencies: .init(
+                                service: StandingsService(client: APIClient(session: URLSession(configuration: .default))))))
         case .shcedule:
             Schedule()
         case .driverprofile:

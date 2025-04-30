@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 typealias ScheduleAPIResponse = [ScheduleAPIModel]
 
 struct ScheduleAPIModel: Decodable {

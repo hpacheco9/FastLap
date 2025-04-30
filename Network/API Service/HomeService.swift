@@ -22,7 +22,7 @@ struct Homeservice {
 
 extension Homeservice: HomeServiceProtocol{
     func fetchRankings() async throws -> RankingsAPIModel {
-        let data = try await client.fetch(endpoint: HomeEndpoint.rankings(season: "2023") )
+        let data = try await client.fetch(endpoint: HomeEndpoint.rankings(season: "2023"))
         return try decode(RankingsAPIModel.self, data: data)
     }
     

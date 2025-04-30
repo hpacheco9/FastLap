@@ -36,6 +36,7 @@ struct ScheduleModel {
     let type: String
     let day: String
     let month: String
+    let time: String
     let timezone: String?
     let status: String?
     

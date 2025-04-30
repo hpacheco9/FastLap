@@ -12,13 +12,7 @@ struct CardRace_: View {
     let schedule: ScheduleModel
     let status: Status
     
-    
-     
-    
     @Environment(\.colorScheme) var colorScheme
-    
-    
-    
     
     var body: some View {
         ZStack {
@@ -112,7 +106,7 @@ struct CardRace_: View {
                         .foregroundColor(.primary)
                         .padding(.bottom, 2)
                     
-                    Text("")
+                    Text(schedule.time)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.gray)
                     
@@ -124,10 +118,6 @@ struct CardRace_: View {
                 .padding(.bottom, 10)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        
-        
-      
-        
     }
 }
 
@@ -151,11 +141,10 @@ struct CardRace_: View {
         type: "Race",
         day: "06",
         month: "April",
+        time: "9:00 AM",
         timezone: "utc",
         status: "Completed"
     )
-
-    
     
     CardRace_(schedule: scheduleModel, status: .soon)
 }

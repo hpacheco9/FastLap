@@ -1,39 +1,27 @@
 //
-//  HomeEndpoint.swift
-//  testev2
+//  ScheduleEndpoint.swift
+//  F1 app
 //
-//  Created by Henrique Pacheco on 10/04/2025.
+//  Created by Henrique Pacheco on 29/04/2025.
 //
 
 import Foundation
 
 
-enum HomeEndpoint: Endpointable {
-    
-    case rankings (season: String)
+enum ScheduleEndpoint: Endpointable {
     case schedule (season: String)
     
     var path: String {
         switch self {
-        case .rankings:
-            return "/rankings/drivers"
         case .schedule:
             return "/races"
         }
     }
         
-
     var parameters: [URLQueryItem]? {
         switch self {
-        case let .rankings(season), let .schedule(season):
+        case let .schedule(season):
             [URLQueryItem(name: "season", value: season)]
         }
     }
 }
-
-
-
-
-
-
-

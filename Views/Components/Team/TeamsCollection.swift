@@ -8,22 +8,20 @@
 import SwiftUI
 
 struct TeamsCollection: View {
+    let teams: [TeamModel]
+
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            LazyVStack {
-                
-                    ForEach(1..<21) { index in
-                        CardTeam(Name: "Mercedes-AMG Petronas", action: {}, pos: "\(index)", points: "255", image: "https://media.api-sports.io/formula-1/teams/17.png").padding(.vertical, 0).padding(10)
-                            
-                    }
-                
+        ScrollView(.vertical, showsIndicators: false) {
+            LazyVStack(spacing: 12) {
+                ForEach(teams, id: \.id) { team in
+                    CardTeam(team: team)
+                        
+                }
             }
-          
         }
     }
 }
 
-
 #Preview {
-    TeamsCollection()
+   // TeamsCollection()
 }

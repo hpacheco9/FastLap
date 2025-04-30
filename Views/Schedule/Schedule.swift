@@ -13,6 +13,12 @@ struct Schedule: View {
     
     @State private var type: ScheduleTypes = .upcoming
     
+    let service = ScheduleService(client: APIClient(session: URLSession(configuration: .default)))
+    
+    let upcoming = [ScheduleModel].self
+    let past = [ScheduleModel].self
+    
+    
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = .orange
         
@@ -32,12 +38,17 @@ struct Schedule: View {
             ScheduleView(scheduleTypes: type)
 
         }
+        .task {
+         //   let data = try? await service.fetchSchedule()
+           // print(data ?? "Error")
+        }
         .navigationTitle("Schedule")
         .navigationBarTitleDisplayMode(.inline)
          
     }
         
 }
+
 
 #Preview {
     Schedule()

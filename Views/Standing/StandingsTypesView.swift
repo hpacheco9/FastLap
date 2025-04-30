@@ -11,13 +11,17 @@ struct StandingsView: View {
     
     var standingsType: StandingTypes
     
+    let drivers: [DriverModel]
+    
+    let teams: [TeamModel]
+    
     var body: some View {
         
             switch standingsType {
             case .drivers:
-                DriversColletion()
+                DriversColletion(drivers: drivers)
             case .teams:
-                TeamsCollection()
+                TeamsCollection(teams: teams)
             }
     }
 }
@@ -30,5 +34,5 @@ enum StandingTypes: String, CaseIterable {
 
 
 #Preview {
-   StandingsView(standingsType: .drivers )
+  // StandingsView(standingsType: .drivers )
 }

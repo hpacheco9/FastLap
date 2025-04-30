@@ -9,11 +9,7 @@ import SwiftUI
 
 struct CardTeam: View {
     
-    var Name: String
-    var action: () -> Void
-    var pos: String
-    var points: String
-    var image: String
+    let team: TeamModel
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -35,30 +31,30 @@ struct CardTeam: View {
                 )
             
             VStack(alignment: .trailing) {
-                Button (action: action){
-                    Label("",systemImage: "chevron.right")
-                }
+                Label("",systemImage: "chevron.right")
                 .foregroundColor(.primary)
                 .font(.system(size: 20, weight: .bold))
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.trailing, 10)
-            .padding(.bottom, 220)
+            .padding(.top, 20)
+            .padding(.bottom, 200)
             
             // header
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(Name)
-                            .font(.system(size: 28, weight: .bold))
-                            .foregroundColor(.primary)
-                    
-                    }
-                    .frame(width: 300)
-                
-                }
-                .padding(.top, 10)
-                .padding(.leading, 10)
+            VStack(alignment: .leading) {
+                Text(team.name)
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+                    .frame(maxWidth: 300, alignment: .leading)
+            }
+            .frame(maxHeight: .infinity, alignment: .topLeading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 10)
+            .padding(.leading, 20)
+            
+
+
                 
                 // Pos e Pts
                 HStack(alignment: .bottom) {
@@ -66,7 +62,7 @@ struct CardTeam: View {
                         Text("Pos")
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.gray)
-                        Text(pos.addZero())
+                        Text("\(team.position)".addZero())
                             .font(.system(size: 40, weight: .bold))
                             .foregroundColor(.primary)
                     }
@@ -77,7 +73,7 @@ struct CardTeam: View {
                         Text("Pts")
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.gray)
-                        Text(points.addZero())
+                        Text("\(team.points)".addZero())
                             .font(.system(size: 40, weight: .bold))
                             .foregroundColor(.primary)
                     }
@@ -88,37 +84,35 @@ struct CardTeam: View {
                     ZStack {
                         HStack {
                             ZStack {
-                                AsyncImage(url: URL(string: image)) { image in
-                                    image
+                                Image(team.logo)
                                         .resizable()
                                         .scaledToFit()
-                                        .frame(width: 200, height: 220)
+                                        .frame(width: 130, height: 100)
                                         .clipped()
-                                        .padding(.bottom, 40)
-                                        .padding()
-
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                                .padding(.trailing, 60)
                             }
-                            .frame(maxWidth: 150)
+                            
+                            .padding(.trailing, 30)
                            
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: 220, alignment: .trailing)
-                }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: 280)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(10)
         
     }
 }
 
-
-
-
-
 #Preview {
-    CardTeam(Name: "Mercedes-AMG Petronas", action: {}, pos: "01", points: "55", image: "https://media.api-sports.io/formula-1/teams/14.png")
+    
+let teamModel = TeamModel(
+        id: 2,
+        position: 2,
+        points: 409,
+        name: "Mercedes-Amg Petronas F1 Team",
+        logo: "kick"
+    )
+    
+   CardTeam(team: teamModel)
 }

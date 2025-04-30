@@ -11,8 +11,7 @@ struct Home: View {
     
     
     var viewModel: HomeViewModel
-    let service = Homeservice(client: APIClient(session: URLSession(configuration: .default) ))
-    
+
     @EnvironmentObject private var coordinator: Coordinator
     
     var body: some View {
@@ -56,9 +55,9 @@ struct Home: View {
                 EmptyView()
             }
         }
-        .task {
-             await viewModel.loadData()
-        }
+       .task {
+         // await viewModel.loadData()
+       }
     }
 }
 

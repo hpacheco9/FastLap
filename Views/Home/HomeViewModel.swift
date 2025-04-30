@@ -12,7 +12,6 @@ import Observation
 @Observable
 class HomeViewModel {
     
-    
     enum State {
         case loading
         case loaded(DriverModel, ScheduleModel)
@@ -32,16 +31,10 @@ class HomeViewModel {
         self.dependencies = dependencies
     }
     
-    
-    func reloadData() async {
-        let schedule = try? await dependencies.service.fetchSchedule()
-        print(schedule ?? "Schedule not found")
-    }
-    
     func loadData() async {
         
         do {
-            
+    
             let rankings =  try await dependencies.service.fetchRankings()
             let schedule =  try await dependencies.service.fetchSchedule()
 
@@ -54,6 +47,10 @@ class HomeViewModel {
             let date = formatter.date(from: lastResponse?.date ?? "")
             let day = String(Calendar.current.component(.day, from: date ?? Date()))
             let month = Calendar.current.component(.month, from: date ?? Date()).montNameMonth()
+            let components = Calendar.current.dateComponents([.hour,.minute], from: date ?? Date())
+            let hour = components.hour
+            let minute = components.minute
+        
             
             let lastSchedule = ScheduleModel(
                 id: lastResponse?.id  ?? 0,
@@ -63,6 +60,7 @@ class HomeViewModel {
                 type: lastResponse?.type ?? "",
                 day: day,
                 month: month,
+                time: String(hour ?? 0) + "." + String(minute ?? 0).addZero(),
                 timezone: lastResponse?.timezone ?? "",
                 status: lastResponse?.status ?? ""
             )
@@ -70,7 +68,6 @@ class HomeViewModel {
 
             guard let driver = rankings.response.map({ response in
         
-                
                 DriverModel(
                     position: response.position,
                     driver: DriverModel.Driver(
@@ -90,13 +87,8 @@ class HomeViewModel {
                 state = .empty
                 return
             }
-
-            
-            
-            
             
             state = .loaded(driver, lastSchedule)
-            
         }
         catch {
             state = .error

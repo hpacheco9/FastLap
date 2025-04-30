@@ -17,9 +17,7 @@ struct ScheduleCoordinatorView: View {
             coordinator.build(page: .shcedule)
                 .navigationDestination(for: Page.self){ page in
                     coordinator.build(page: page)
-                }
-              
-            
+            }
         }
     }
 }

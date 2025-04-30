@@ -36,6 +36,7 @@ struct ScheduleView: View {
                             type: "Race",
                             day: "07",
                             month: "March",
+                            time: "12:00 PM",
                             timezone: "utc",
                             status: "Completed"
                         ), status: .live).padding(.vertical, 0).padding(10)
@@ -66,6 +67,7 @@ struct ScheduleView: View {
                         type: "Race",
                         day: "10",
                         month: "April",
+                        time: "21:00 PM",
                         timezone: "utc",
                         status: "Completed"
                     ), status: .live).padding(.vertical, 0).padding(10)
