@@ -17,7 +17,7 @@ struct DriversColletion: View {
         ScrollView(showsIndicators: false){
             LazyVStack {
                 ForEach(drivers, id: \.driver.id) { driver in
-                    CardDriver(driver: driver)
+                   /* CardDriver(driver: driver)*/
                 }
             }
         }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Standings: View {
     
-    let viewModel: StandingsViewModel
+     let viewModel: StandingsViewModel
     
     init(viewModel: StandingsViewModel) {
         UISegmentedControl.appearance().selectedSegmentTintColor = .orange
@@ -36,9 +36,7 @@ struct Standings: View {
                     
                     StandingsView(standingsType: type, drivers: drivers, teams: teams)
                 }
-                .frame(alignment: .top)
-                .navigationTitle("Standings")
-                .toolbarTitleDisplayMode(.inline)
+               
             case .empty:
                 EmptyView()
             case .error:
@@ -46,10 +44,11 @@ struct Standings: View {
             }
         }
         .task {
-            await viewModel.loadData()
-            
-           
+           await viewModel.loadData()
          }
+        .frame(alignment: .top)
+        .navigationTitle("Standings")
+        .toolbarTitleDisplayMode(.inline)
     }
 }
 

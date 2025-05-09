@@ -14,7 +14,7 @@ class HomeViewModel {
     
     enum State {
         case loading
-        case loaded(DriverModel, ScheduleModel)
+        case loaded(DriverModel, SchedulePageViewmodel)
         case empty
         case error
     }
@@ -52,7 +52,7 @@ class HomeViewModel {
             let minute = components.minute
         
             
-            let lastSchedule = ScheduleModel(
+            let lastSchedule = SchedulePageViewmodel(model: ScheduleModel(
                 id: lastResponse?.id  ?? 0,
                 competition: ScheduleModel.Competition(id: lastResponse?.competition.id ?? 0, name: lastResponse?.competition.name ?? "", location: ScheduleModel.Competition.Location(country: lastResponse?.competition.location.country ?? "", city: lastResponse?.competition.location.country ?? "")),
                 
@@ -63,6 +63,7 @@ class HomeViewModel {
                 time: String(hour ?? 0) + "." + String(minute ?? 0).addZero(),
                 timezone: lastResponse?.timezone ?? "",
                 status: lastResponse?.status ?? ""
+             )
             )
 
 

@@ -9,9 +9,7 @@ import Foundation
 
 struct ScheduleModel {
     
-    
     struct Competition {
-        
         struct Location {
             let country: String
             let city: String

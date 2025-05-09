@@ -9,7 +9,9 @@ import Foundation
 
 
 struct PageModel {
+    
     let image: String
     let title: String
     let description: String
+    
 }

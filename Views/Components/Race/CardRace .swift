@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CardRace_: View {
     
-    let schedule: ScheduleModel
+    let schedule: SchedulePageViewmodel
     let status: Status
     
     @Environment(\.colorScheme) var colorScheme
@@ -41,13 +41,13 @@ struct CardRace_: View {
             // header
             VStack(alignment: .leading) {
                 HStack {
-                    Image(schedule.competition.location.country)
+                    Image(schedule.country)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 15)
                     
                     VStack {
-                        Text("GP " + schedule.competition.location.country)
+                        Text("GP " + schedule.country)
                             .foregroundStyle(.primary)
                             .font(.system(size: 16, weight: .semibold))
                     }
@@ -55,7 +55,7 @@ struct CardRace_: View {
                 .frame(alignment: .top)
                 .padding(.bottom, 5)
                 
-                Text(schedule.circuit.name)
+                Text(schedule.circuitName)
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(.primary)
                 
@@ -66,14 +66,14 @@ struct CardRace_: View {
             .padding(.bottom, 200)
             
             HStack {
-                Image(schedule.circuit.image)
+                Image(schedule.circuitImage)
                     .resizable()
                     .scaledToFit()
                     .shadow(color: .orange.opacity(1), radius: 0, x: 2, y: 6)
-                    .frame(maxWidth: 190, maxHeight: 220, alignment: .leading)
+                    .frame(maxWidth: 150, maxHeight: 170, alignment: .leading)
                     .padding(.leading, 10)
                 
-                Text("\(schedule.circuit.id)".addZero())
+                Text("\(schedule.circuitId)".addZero())
                     .font(.system(size: 120, weight: .medium))
                     .foregroundColor(.orange.opacity(0.8))
                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -90,7 +90,7 @@ struct CardRace_: View {
                         .font(.system(size: 40, weight: .medium))
                         .foregroundColor(.orange)
                     
-                    Text(" \(schedule.month) 2025")
+                    Text(schedule.month)
                         .font(.system(size: 12, weight: .regular))
                         .foregroundColor(.gray)
                         .padding(.bottom, 5)
@@ -140,11 +140,13 @@ struct CardRace_: View {
         ),
         type: "Race",
         day: "06",
-        month: "April",
+        month: "April 25",
         time: "9:00 AM",
         timezone: "utc",
         status: "Completed"
     )
     
-    CardRace_(schedule: scheduleModel, status: .soon)
+    let model = SchedulePageViewmodel(model: scheduleModel)
+    
+    CardRace_(schedule: model, status: .soon)
 }

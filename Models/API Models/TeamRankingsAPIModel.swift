@@ -7,13 +7,9 @@
 
 import Foundation
 
-
 struct TeamRankingsAPIModel: Decodable {
     
-    
     struct Response: Decodable {
-        
-      
         
         let position: Int
         let team: TeamAPIModel
@@ -31,6 +27,5 @@ struct TeamRankingsAPIModel: Decodable {
     let errors: [String]
     let results: Int
     let response: [Response]
-    
-    
+
 }

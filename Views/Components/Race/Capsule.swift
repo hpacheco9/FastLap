@@ -29,5 +29,5 @@ struct LiveCapsule: View {
 }
 
 #Preview {
-    LiveCapsule(status: .soon)
+    LiveCapsule(status: .live)
 }

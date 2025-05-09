@@ -11,6 +11,7 @@ import Foundation
 enum Status: String, CaseIterable {
     case live
     case soon
+    
     var text: String {
         switch self {
         case .live:

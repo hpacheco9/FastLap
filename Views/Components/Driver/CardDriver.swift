@@ -11,8 +11,6 @@ struct CardDriver: View {
     
     let driver: DriverModel
     
-  
-    
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -61,7 +59,7 @@ struct CardDriver: View {
                     }
                     .padding(.leading, 10)
                     .padding(.top, 20)
-                    
+
                     // Pos e Pts
                     HStack(alignment: .bottom) {
                         VStack(alignment: .leading) {
@@ -131,10 +129,10 @@ struct CardDriver: View {
 
 #Preview {
     
-    let driverModel = DriverModel(
+    let driver = DriverModel(
         position: 1,
         driver: DriverModel.Driver(
-            id: 1,
+            id: 25,
             name: "Max Verstappen",
             number: 33,
             abbreviation: "VER",
@@ -146,5 +144,7 @@ struct CardDriver: View {
         behind: 0,
         season: 2023)
     
-    CardDriver(driver: driverModel)
+   // let driver = StandingsPageViewmodel(model: driverModel)
+    
+    CardDriver(driver: driver)
 }

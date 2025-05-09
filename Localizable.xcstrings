@@ -4,43 +4,19 @@
     "" : {
 
     },
-    " %@ 2025" : {
-
-    },
     "%@" : {
 
     },
     "%lld" : {
 
     },
-    "0" : {
-
-    },
-    "01" : {
-
-    },
-    "4" : {
-
-    },
-    "05" : {
-
-    },
-    "12" : {
-
-    },
-    "22" : {
-
-    },
-    "63" : {
-
-    },
-    "69" : {
-
-    },
-    "250" : {
+    "11" : {
 
     },
     "Championship stats" : {
+
+    },
+    "Error" : {
 
     },
     "F1 2025" : {
@@ -68,6 +44,9 @@
         }
       }
     },
+    "GPs Entered" : {
+
+    },
     "header.upcoming" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -88,10 +67,7 @@
     "Home" : {
 
     },
-    "Lando Norris" : {
-
-    },
-    "Mclaren" : {
+    "Loading..." : {
 
     },
     "onboard1.description" : {
@@ -153,9 +129,6 @@
 
     },
     "Points" : {
-
-    },
-    "Poles" : {
 
     },
     "Pos" : {

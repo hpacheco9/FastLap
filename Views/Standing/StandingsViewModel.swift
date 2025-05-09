@@ -36,7 +36,7 @@ class StandingsViewModel {
             
             let data = try await dependencies.service.fetchTeamsRankings()
             
-            guard !data.response.isEmpty else {
+            guard data.response.isEmpty else {
                 state = .empty
                 return
             }
@@ -59,20 +59,23 @@ class StandingsViewModel {
             }
 
             let driver = rankings.response.map { response in
-                DriverModel(
-                    position: response.position,
-                    driver: DriverModel.Driver(
-                        id: response.driver.id,
-                        name: response.driver.name,
-                        number: response.driver.number,
-                        abbreviation: response.driver.abbreviation,
-                        imageUrl: response.driver.imageUrl
-                    ),
-                    team: DriverModel.Team(id: response.team.id, name: response.team.name, logo: response.team.assetForTeamId(response.team.id)),
-                    points: response.points ?? 0,
-                    wins: response.wins,
-                    behind: response.behind,
-                    season: response.season)
+                
+                
+                    DriverModel(
+                        position: response.position,
+                        driver: DriverModel.Driver(
+                            id: response.driver.id,
+                            name: response.driver.name,
+                            number: response.driver.number,
+                            abbreviation: response.driver.abbreviation,
+                            imageUrl: response.driver.imageUrl
+                        ),
+                        team: DriverModel.Team(id: response.team.id, name: response.team.name, logo: response.team.assetForTeamId(response.team.id)),
+                        points: response.points ?? 0,
+                        wins: response.wins,
+                        behind: response.behind,
+                        season: response.season)
+                
             }
             
             state = .loaded(driver, teams)

@@ -10,19 +10,20 @@ import SwiftUI
 struct ScheduleCoordinatorView: View {
     
     @EnvironmentObject var coordinator: Coordinator
+    var viewmodel: ScheduleViewModel
     
     var body: some View {
         
         NavigationStack(path: $coordinator.path){
-            coordinator.build(page: .shcedule)
+            coordinator.build(page: .shcedule(viewmodel: viewmodel))
                 .navigationDestination(for: Page.self){ page in
                     coordinator.build(page: page)
+                }
+                .sheet(item: $coordinator.sheet) { sheet in
+                    coordinator.build(sheet: sheet)
             }
         }
     }
 }
 
-#Preview {
-    ScheduleCoordinatorView()
-        .environmentObject(Coordinator())
-}
+

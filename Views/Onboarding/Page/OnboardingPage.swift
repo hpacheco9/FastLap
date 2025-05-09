@@ -11,7 +11,6 @@ struct OnboardingPage: View {
     
     var dataModel: PageViewmodel
     
-    
     @Environment(\.colorScheme) var colorScheme
    
     var body: some View {

@@ -34,7 +34,7 @@ struct ScheduleAPIModel: Decodable {
         
         let id: Int
         let competition: CompetitionAPIModel
-        let circuit: CircuitAPI // Also update reference to use the fixed type name
+        let circuit: CircuitAPI 
         let season: Int
         let type: String
         let laps: Laps

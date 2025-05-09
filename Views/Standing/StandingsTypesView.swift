@@ -31,8 +31,6 @@ enum StandingTypes: String, CaseIterable {
     case teams = "Teams"
 }
 
-
-
 #Preview {
   // StandingsView(standingsType: .drivers )
 }
