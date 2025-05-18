@@ -93,9 +93,8 @@ class ScheduleViewModel {
             let pastRaces =  makeSchedule(schedule: lastPastRaceByCircuit, isofortematter: isoFormatter)
             let upcomingRaces = makeSchedule(schedule: nextFutureRaceByCircuit, isofortematter: isoFormatter)
             
-            await MainActor.run {
-                            state = .loaded(pastRaces, upcomingRaces)
-            }
+                
+            state = .loaded(pastRaces, upcomingRaces)
         }
         catch {
             state = .error

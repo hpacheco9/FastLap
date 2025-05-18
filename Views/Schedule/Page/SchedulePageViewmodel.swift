@@ -10,6 +10,7 @@ import Foundation
 
 struct SchedulePageViewmodel {
     
+    
     var model: ScheduleModel
     
     
@@ -34,4 +35,6 @@ struct SchedulePageViewmodel {
     init(model: ScheduleModel) {
         self.model = model
     }
+    
+   
 }

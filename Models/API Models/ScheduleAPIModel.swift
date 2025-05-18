@@ -43,7 +43,7 @@ struct ScheduleAPIModel: Decodable {
         let timezone: String
         let date: String?
         let weather: String?
-        let status: String?
+        let status: String? 
     }
     
     let get: String?

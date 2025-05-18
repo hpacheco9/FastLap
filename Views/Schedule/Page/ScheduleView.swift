@@ -45,7 +45,7 @@ struct Schedule: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Task {
-                await viewmodel.loadData()
+             //await viewmodel.loadData()
             }
         }
     }

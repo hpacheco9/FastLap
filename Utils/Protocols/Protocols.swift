@@ -40,8 +40,6 @@ extension Cenas {
     }
 }
 
-
-
 protocol CircuitAsset {
     func assetForCircuitId(_ circuitId: Int) -> String
 }

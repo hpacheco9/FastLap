@@ -41,13 +41,14 @@ enum Sheet: Identifiable, Hashable, Equatable {
         hasher.combine(id)
     }
     
-    
-    case driverprofile(viewModel: DriverStatsViewmodel)
+    case driverprofile(viewModel: DriverStatsViewmodel), teamprofile(viewmodel: TeamStatsViewmodel)
     
     var id : String {
         switch self {
         case .driverprofile:
             "/driverprofile"
+        case .teamprofile:
+            "/teamprofile"
         }
     }
 }
@@ -83,8 +84,15 @@ class Coordinator: ObservableObject {
                     service: DriverStatsService(client: APIClient(session: URLSession(configuration: .default))), driver: nil
             )
         )
-        
     
+    
+    var team: TeamStatsViewmodel = TeamStatsViewmodel(
+        dependencies:
+                .init(
+                    service: TeamStatsService(client: APIClient(session: URLSession(configuration: .default))), team: nil
+            )
+        )
+        
     
     func push(page: Page) {
         path.append(page)
@@ -136,6 +144,10 @@ class Coordinator: ObservableObject {
             NavigationStack {
                 DriverProfile( viewmodel : viewmodel)
                 
+            }
+        case let .teamprofile(viewmodel):
+            NavigationStack {
+                TeamStatsView(viewmodel: viewmodel)
             }
         }
     }

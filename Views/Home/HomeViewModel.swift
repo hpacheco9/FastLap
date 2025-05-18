@@ -8,7 +8,6 @@
 import Foundation
 import Observation
 
-
 @Observable
 class HomeViewModel {
     
@@ -23,7 +22,6 @@ class HomeViewModel {
         let service: HomeServiceProtocol
     }
     
-    
     private let dependencies: Dependencies
     var state: State = .loading
     
@@ -34,41 +32,80 @@ class HomeViewModel {
     func loadData() async {
         
         do {
-    
-            let rankings =  try await dependencies.service.fetchRankings()
-            let schedule =  try await dependencies.service.fetchSchedule()
+            
+            async let rankings =  try await dependencies.service.fetchRankings()
+            async let schedule =  try await dependencies.service.fetchSchedule()
+            
+            let (races, drivers) = try await (schedule, rankings)
 
-            guard let lastResponse = schedule.response.last else {
-                self.state = .empty
+            
+            guard !races.response.isEmpty else {
+                state = .empty
                 return
             }
             
-            let formatter = ISO8601DateFormatter()
-            let date = formatter.date(from: lastResponse?.date ?? "")
-            let day = String(Calendar.current.component(.day, from: date ?? Date()))
-            let month = Calendar.current.component(.month, from: date ?? Date()).montNameMonth()
-            let components = Calendar.current.dateComponents([.hour,.minute], from: date ?? Date())
-            let hour = components.hour
-            let minute = components.minute
-        
+            let scheduleResponses = races.response.compactMap({ $0 })
             
-            let lastSchedule = SchedulePageViewmodel(model: ScheduleModel(
-                id: lastResponse?.id  ?? 0,
-                competition: ScheduleModel.Competition(id: lastResponse?.competition.id ?? 0, name: lastResponse?.competition.name ?? "", location: ScheduleModel.Competition.Location(country: lastResponse?.competition.location.country ?? "", city: lastResponse?.competition.location.country ?? "")),
-                
-                circuit: ScheduleModel.Circuit(id: lastResponse?.circuit.id ?? 0, name: lastResponse?.circuit.name ?? "", image: lastResponse?.circuit.assetForCircuitId(lastResponse?.circuit.id ?? 0) ?? ""),
-                type: lastResponse?.type ?? "",
+            let isoFormatter: ISO8601DateFormatter = {
+                let f = ISO8601DateFormatter()
+                f.formatOptions = [.withInternetDateTime]
+                return f
+            }()
+            let now = Date()
+
+            guard
+                let nextRace = scheduleResponses
+                    .compactMap({ race -> (Date, ScheduleAPIModel.Response)? in
+                        guard
+                            let ds = race.date,
+                            let date = isoFormatter.date(from: ds),
+                            date >= now
+                        else { return nil }
+                        return (date, race)
+                    })
+                    .min(by: { $0.0 < $1.0 })?
+                    .1
+            else {
+                return
+            }
+            guard
+                let ds = nextRace.date,
+                let raceDate = isoFormatter.date(from: ds)
+            else {
+                return
+            }
+
+            let calendar = Calendar.current
+            let day   = String(calendar.component(.day,   from: raceDate))
+            let month = calendar.component(.month, from: raceDate).montNameMonth()
+            let year  = calendar.component(.year,  from: raceDate)
+            let hour  = calendar.component(.hour,  from: raceDate)
+            let minute   = calendar.component(.minute,from: raceDate)
+            
+            let upcomingRace = SchedulePageViewmodel(model: ScheduleModel(
+                id: nextRace.id,
+                competition: ScheduleModel.Competition(
+                    id: nextRace.competition.id ,
+                    name: nextRace.competition.name,
+                    location: ScheduleModel.Competition.Location(
+                        country: nextRace.competition.location.country,
+                        city: nextRace.competition.location.city
+                    )
+                ),
+                circuit: ScheduleModel.Circuit(
+                    id: nextRace.circuit.id,
+                    name: nextRace.circuit.name,
+                    image: nextRace.circuit.assetForCircuitId(nextRace.circuit.id)
+                ),
+                type: nextRace.type,
                 day: day,
-                month: month,
-                time: String(hour ?? 0) + "." + String(minute ?? 0).addZero(),
-                timezone: lastResponse?.timezone ?? "",
-                status: lastResponse?.status ?? ""
-             )
+                month: month + " " + String(year).suffix(2),
+                time: String(format: "%02d.%02d", hour, minute),
+                timezone: nextRace.timezone,
+                status: nextRace.status
             )
-
-
-            guard let driver = rankings.response.map({ response in
-        
+        )
+            guard let driver = drivers.response.map({ response in
                 DriverModel(
                     position: response.position,
                     driver: DriverModel.Driver(
@@ -89,7 +126,7 @@ class HomeViewModel {
                 return
             }
             
-            state = .loaded(driver, lastSchedule)
+            state = .loaded(driver, upcomingRace)
         }
         catch {
             state = .error

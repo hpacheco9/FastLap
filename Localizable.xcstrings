@@ -4,13 +4,7 @@
     "" : {
 
     },
-    "%@" : {
-
-    },
     "%lld" : {
-
-    },
-    "11" : {
 
     },
     "Championship stats" : {
@@ -65,9 +59,6 @@
       }
     },
     "Home" : {
-
-    },
-    "Loading..." : {
 
     },
     "onboard1.description" : {
@@ -129,6 +120,9 @@
 
     },
     "Points" : {
+
+    },
+    "Poles" : {
 
     },
     "Pos" : {

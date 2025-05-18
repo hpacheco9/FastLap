@@ -10,14 +10,11 @@ import Foundation
 
 struct DriverStatsModel {
     
-    
-    
-    struct Team: Cenas {
-        let id: Int
-        let name: String
-        let logo: String
+    struct Team {
+        let id: Int?
+        let name: String?
+        let logo: String?
     }
-
     
     let id: Int
     let name: String
@@ -27,13 +24,10 @@ struct DriverStatsModel {
     let position: Int
     let points: Int
     let wins: Int
+    let total_wins: Int
     let podiums: Int
     let team: Team
     let worldChampionships: Int
     let gpEntries: Int
-
-    
-    
-    
     
 }

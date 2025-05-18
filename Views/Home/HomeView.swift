@@ -17,27 +17,8 @@ struct Home: View {
        VStack {
            switch viewModel.state {
            case .loading:
-               Text("Loading...").onTapGesture {
-                   coordinator.present(sheet: .driverprofile(viewModel: DriverStatsViewmodel(
-                    dependencies:
-                            .init(
-                                service: DriverStatsService(client: APIClient(session: URLSession(configuration: .default))), driver: DriverModel(
-                                    position: 1,
-                                    driver: DriverModel.Driver(
-                                        id: 25,
-                                        name: "Max Verstappen",
-                                        number: 33,
-                                        abbreviation: "VER",
-                                        imageUrl: "https://media.api-sports.io/formula-1/drivers/49.png"
-                                    ),
-                                    team: DriverModel.Team(id: 1, name: "Red Bull Racing", logo: "redbull"),
-                                    points: 55,
-                                    wins: 3,
-                                    behind: 0,
-                                    season: 2023)))))
-               }
+               ProgressView()
             case .loaded(let driver, let schedule):
-               
                 ScrollView {
                     VStack {
                         Header(title: "Standings")
@@ -52,7 +33,10 @@ struct Home: View {
                        CardDriver(driver: driver)
                             .padding(.vertical, -15)
                             .onTapGesture {
-                                //coordinator.present(sheet: .driverprofile)
+                                coordinator.present(sheet: .driverprofile(viewModel: DriverStatsViewmodel(
+                                 dependencies:
+                                         .init(
+                                             service: DriverStatsService(client: APIClient(session: URLSession(configuration: .default))), driver: driver))))
                         }
                         
                         Header(title: "header.upcoming".localized)
@@ -66,15 +50,15 @@ struct Home: View {
                        CardRace_(schedule: schedule , status: .live).padding(10).padding(.vertical, -15)
                     }
                 }
-               
             case .empty:
                 EmptyView()
             case .error:
                EmptyView()
             }
-        }
-       .task {
-         //await viewModel.loadData()
+       }.onAppear {
+           Task {
+              // await viewModel.loadData()
+           }
        }
        .navigationTitle("Home")
        .navigationBarTitleDisplayMode(.inline)

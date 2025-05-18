@@ -26,7 +26,7 @@ struct DriverProfile: View {
                             // Header with number and image
                             HStack {
                                 Text(driver.number)
-                                    .font(.system(size: 90, weight: .medium))
+                                    .font(.system(size: 100, weight: .medium))
                                     .foregroundColor(.orange.opacity(0.8))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.leading, 10)
@@ -38,7 +38,7 @@ struct DriverProfile: View {
                                         .frame(width: 200)
                                         .clipped()
                                         .frame(maxWidth: .infinity, alignment: .trailing)
-                                        .padding(.bottom, 20)
+                                        .padding(.bottom, 5)
                                         .mask(
                                             LinearGradient(
                                                 gradient: Gradient(stops: [
@@ -99,7 +99,7 @@ struct DriverProfile: View {
                                                 .font(.system(size: 20))
                                                 .foregroundStyle(.secondary)
                                             Text("\(driver.position)".addZero())
-                                                .font(.system(size: 60, weight: .bold))
+                                                .font(.system(size: 49, weight: .bold))
                                         }
                                         .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -107,8 +107,8 @@ struct DriverProfile: View {
                                             Text("Wins")
                                                 .font(.system(size: 20))
                                                 .foregroundStyle(.secondary)
-                                            Text("11")
-                                                .font(.system(size: 60, weight: .bold))
+                                            Text("\(driver.wins)".addZero())
+                                                .font(.system(size: 49, weight: .bold))
                                         }
                                         .frame(maxWidth: .infinity, alignment: .center)
 
@@ -117,7 +117,8 @@ struct DriverProfile: View {
                                                 .font(.system(size: 20))
                                                 .foregroundStyle(.secondary)
                                             Text("\(driver.points)".addZero())
-                                                .font(.system(size: 60, weight: .bold))
+                                                .font(.system(size: 49, weight: .bold))
+                                                
                                         }
                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                         .padding(.leading, 20)
@@ -183,15 +184,12 @@ struct DriverProfile: View {
                 .navigationTitle(driver.name)
                 .navigationBarTitleDisplayMode(.large)
                 
-
             case .error:
                 Text("Error")
 
             case .empty:
                 EmptyView()
             }
-
-            
         }
         .task {
             await viewmodel.loadData()
@@ -199,28 +197,3 @@ struct DriverProfile: View {
     }
 }
 
-#Preview {
-    
-DriverProfile(viewmodel : DriverStatsViewmodel(
-        dependencies:
-                .init(
-                    service: DriverStatsService(client: APIClient(session: URLSession(configuration: .default))), driver: DriverModel(
-                        position: 1,
-                        driver: DriverModel.Driver(
-                            id: 25,
-                            name: "Max Verstappen",
-                            number: 33,
-                            abbreviation: "VER",
-                            imageUrl: "https://media.api-sports.io/formula-1/drivers/49.png"
-                        ),
-                        team: DriverModel.Team(id: 1, name: "Red Bull Racing", logo: "redbull"),
-                        points: 55,
-                        wins: 3,
-                        behind: 0,
-                        season: 2023)
-            )
-        )
-    )
-    /*DriverProfile(client: DriverStatsService(client:APIClient(session: URLSession(configuration: .default))))
-      .padding()*/
-}

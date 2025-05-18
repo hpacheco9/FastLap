@@ -40,15 +40,24 @@ struct DriverStatsAPIModel: Decodable {
             let number: Int
         }
         
-        struct teams: Decodable {
+        
+        
+        struct Teams: Decodable {
+            
+            struct Team : Decodable, Cenas {
+                let id: Int?
+                let name: String?
+                let logoUrl: String?
+            }
+            
             let season: Int,
-            team: TeamAPIModel
+            team: Team
         }
         
         
         let id : Int
         let name: String
-        let abbreviation: String
+        let abbreviation: String?
         let imageUrl: String
         let nationality: String?
         let country: country
@@ -61,7 +70,7 @@ struct DriverStatsAPIModel: Decodable {
         let total_wins: wins
         let highest_grid_position: Int
         let career_points: String
-        let teams: [teams]
+        let teams: [Teams]
     }
     
     struct Parameters: Decodable {

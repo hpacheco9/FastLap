@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 @Observable
 class StandingsViewModel {
     
@@ -22,65 +21,70 @@ class StandingsViewModel {
         let service: StandingsServiceProtocol
     }
     
-    
     private let dependencies: Dependencies
     var state: State = .loading
     
-    init (dependencies: Dependencies) {
+    init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
     
     func loadData() async {
+        state = .loading
         
         do {
             
-            let data = try await dependencies.service.fetchTeamsRankings()
+            async let teamsData = dependencies.service.fetchTeamsRankings()
+            async let driversData = dependencies.service.fetchDriversRankings()
+            let (teamResponse, driverResponse) = try await (teamsData, driversData)
             
-            guard data.response.isEmpty else {
+            
+            guard !teamResponse.response.isEmpty else {
                 state = .empty
                 return
             }
             
-            let teams = data.response.map{ response in
+            guard !driverResponse.response.isEmpty else {
+                state = .empty
+                return
+            }
+            
+            
+            let teams = teamResponse.response.map { item in
                 TeamModel(
-                    id: response.team.id,
-                    position: response.position,
-                    points: response.points,
-                    name: response.team.name,
-                    logo: response.team.assetForTeamId(response.team.id))
-            }
-
-            let rankings =  try await dependencies.service.fetchDriversRankings()
-            
-            
-            guard !rankings.response.isEmpty else {
-                state = .empty
-                return
-            }
-
-            let driver = rankings.response.map { response in
-                
-                
-                    DriverModel(
-                        position: response.position,
-                        driver: DriverModel.Driver(
-                            id: response.driver.id,
-                            name: response.driver.name,
-                            number: response.driver.number,
-                            abbreviation: response.driver.abbreviation,
-                            imageUrl: response.driver.imageUrl
-                        ),
-                        team: DriverModel.Team(id: response.team.id, name: response.team.name, logo: response.team.assetForTeamId(response.team.id)),
-                        points: response.points ?? 0,
-                        wins: response.wins,
-                        behind: response.behind,
-                        season: response.season)
-                
+                    id: item.team.id,
+                    position: item.position,
+                    points: item.points,
+                    name: item.team.name,
+                    logo: item.team.assetForTeamId(item.team.id)
+                )
             }
             
-            state = .loaded(driver, teams)
-        }
-        catch {
+            
+            let drivers = driverResponse.response.map { item in
+                DriverModel(
+                    position: item.position,
+                    driver: .init(
+                        id: item.driver.id,
+                        name: item.driver.name,
+                        number: item.driver.number,
+                        abbreviation: item.driver.abbreviation,
+                        imageUrl: item.driver.imageUrl
+                    ),
+                    team: .init(
+                        id: item.team.id,
+                        name: item.team.name,
+                        logo: item.team.assetForTeamId(item.team.id)
+                    ),
+                    points: item.points ?? 0,
+                    wins: item.wins,
+                    behind: item.behind,
+                    season: item.season
+                )
+            }
+            
+            state = .loaded(drivers, teams)
+            
+        } catch {
             state = .error
         }
     }

@@ -101,7 +101,7 @@ struct CardRace_: View {
                 
                 
                 VStack {
-                    Text("\(schedule.type)")
+                    Text("\(schedule.type)".getType())
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.primary)
                         .padding(.bottom, 2)

@@ -27,7 +27,6 @@ struct ScheduleView: View {
                        CardRace_(schedule: race, status: .soon)
                             .padding(.vertical, 0)
                             .padding(10)
-                            
                     }
                 }
             }

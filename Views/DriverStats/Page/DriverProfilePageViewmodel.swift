@@ -20,10 +20,10 @@ struct DriverProfilePageViewmodel {
     }
     
     var teamLogo: String {
-        model.team.logo
+        model.team.logo ?? ""
     }
     var teamName: String {
-        model.team.name
+        model.team.name ?? ""
     }
     
     var image: String {
@@ -52,6 +52,10 @@ struct DriverProfilePageViewmodel {
     
     var position: Int {
         model.position
+    }
+    
+    var wins: Int {
+        model.wins
     }
     
     init (model: DriverStatsModel) {
