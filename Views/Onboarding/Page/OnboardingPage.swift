@@ -54,15 +54,7 @@ struct OnboardingPage: View {
         
         }
         .ignoresSafeArea(.all)
-
     }
 }
 
 
-
-
-#Preview {
-    
-
-
-}

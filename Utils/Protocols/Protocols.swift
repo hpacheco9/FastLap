@@ -6,36 +6,37 @@
 //
 
 import Foundation
+import SwiftUI
 
-protocol Cenas {
-    func assetForTeamId(_ teamId: Int) -> String
+protocol AssetForTeam  {
+    func assetForTeamId(_ teamId: Int) -> (String, Color)
 }
 
-extension Cenas {
-    func assetForTeamId(_ teamId: Int) -> String {
+extension AssetForTeam {
+    func assetForTeamId(_ teamId: Int) -> (String, Color){
         switch teamId {
         case 1:
-            return "redbull"
+            return ("redbull", .red)
         case 2:
-            return "mclaren"
+            return ("mclaren", .orange)
         case 3:
-            return "ferrari"
+            return ("ferrari", .red)
         case 5:
-            return "mercedes"
+            return ("mercedes", .mint)
         case 7:
-            return "rbvisa"
+            return ("rbvisa", .blue)
         case 12:
-            return "williams"
+            return ("williams", .blue)
         case 13:
-            return "alpine"
+            return ("alpine", .cyan)
         case 14:
-            return "haas"
+            return ("haas", .red)
         case 17:
-            return "aston"
+            return ("aston", .teal)
         case 18:
-            return "kick"
+            return ("kick", .green)
         default:
-            return ""
+            return ("", .clear)
         }
     }
 }

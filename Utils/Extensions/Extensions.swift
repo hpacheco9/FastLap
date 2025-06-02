@@ -27,34 +27,8 @@ extension Int {
 
 
 extension String {
-    func addZero() -> String {
-        if self.count == 1 {
-            return "0" + self
-        }
-        return self
+    var addZero: String {
+         self.count == 1 ? "0" + self : self    
     }
 }
 
-
-extension String {
-    func getType() -> String {
-        switch self {
-        case "1st Qualifying":
-            return "Q1"
-        case "2nd Qualifying":
-            return "Q2"
-        case "3rd Qualifying":
-            return "Q3"
-        case "Race":
-            return "Race"
-        case "1st Practice":
-            return "FP1"
-        case "2nd Practice":
-            return "FP2"
-        case "3rd Practice":
-            return "FP3"
-        default :
-            return ""
-        }
-    }
-}

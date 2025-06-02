@@ -7,21 +7,16 @@
 
 import Foundation
 
-
 protocol ScheduleServiceProtocol {
     func fetchSchedule() async throws -> ScheduleAPIModel
 }
 
-
-
 struct ScheduleService {
-    
     let client: APIClientFetchable
     
     init(client: APIClientFetchable) {
         self.client = client
     }
-
 }
 
 

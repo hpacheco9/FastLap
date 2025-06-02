@@ -8,9 +8,12 @@
 import SwiftUI
 import Foundation
 
-enum Status: String, CaseIterable {
-    case live
-    case soon
+enum Status: String,  Decodable {
+    case live = "Live"
+    case soon = "Schedule"
+    case completed = "Completed"
+    case cancelled = "Cancelled"
+    case postponed = "Postponed"
     
     var text: String {
         switch self {
@@ -18,6 +21,12 @@ enum Status: String, CaseIterable {
             return "Watch live"
         case .soon:
             return "Soon"
+        case .completed:
+            return "Completed"
+        case .cancelled:
+            return "Cancelled"
+        case .postponed:
+            return "Postponed"
         }
     }
     
@@ -27,7 +36,12 @@ enum Status: String, CaseIterable {
                 return .orange
             case .soon:
                 return .secondary
+            case .completed:
+                return .secondary
+            case .cancelled:
+                return .secondary
+           case .postponed:
+                return .secondary
         }
     }
-    
 }

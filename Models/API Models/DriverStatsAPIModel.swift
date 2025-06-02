@@ -44,7 +44,7 @@ struct DriverStatsAPIModel: Decodable {
         
         struct Teams: Decodable {
             
-            struct Team : Decodable, Cenas {
+            struct Team : Decodable, AssetForTeam  {
                 let id: Int?
                 let name: String?
                 let logoUrl: String?

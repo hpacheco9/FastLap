@@ -7,56 +7,34 @@
 
 import Foundation
 
-
-struct DriverProfilePageViewmodel {
+class DriverProfilePageViewmodel {
+    
     var model: DriverStatsModel
     
-    var name: String {
-        model.name
-    }
+    lazy var name: String = model.name
     
-    var number: String {
-        String(model.number)
-    }
+    lazy var number: String  = String(model.number)
     
-    var teamLogo: String {
-        model.team.logo ?? ""
-    }
-    var teamName: String {
-        model.team.name ?? ""
-    }
+    lazy var teamLogo: String = model.team.logo ?? ""
     
-    var image: String {
-        model.image
-    }
+    lazy var teamName: String = model.team.name ?? ""
     
-    var worldChampionships: Int {
-        model.worldChampionships
-    }
+    lazy var image: String = model.image
     
-    var podiums: Int {
-        model.podiums
-    }
+    lazy var worldChampionships: Int  = model.worldChampionships
     
-    var gpEntries: Int {
-        model.gpEntries
-    }
+    lazy var podiums: Int = model.podiums
     
-    var total_wins: Int {
-        model.wins
-    }
+    lazy var gpEntries: Int  = model.gpEntries
     
-    var points: Int {
-        model.points
-    }
+    lazy var total_wins: Int  = model.wins
     
-    var position: Int {
-        model.position
-    }
+    lazy var points: Int = model.points
     
-    var wins: Int {
-        model.wins
-    }
+    lazy var position: Int = model.position
+    
+    lazy var wins: Int = model.wins
+    
     
     init (model: DriverStatsModel) {
         self.model = model

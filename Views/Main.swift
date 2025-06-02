@@ -33,7 +33,11 @@ struct Main: View {
     
     var body: some View {
         
-        if !isFirstLaunch {
+        if isFirstLaunch {
+            Onboarding()
+            
+        } else {
+           
             TabView(selection: $selectedTab) {
                 
                 HomeCoordinatorView(viewmodel: home)
@@ -51,14 +55,11 @@ struct Main: View {
                 StandingsCoordinatorView(viewmodel: standings)
                     .environmentObject(Coordinator())
                     .tabItem {
-                        Label("Standings", systemImage:"trophy")
+                        Label("tab.bar.standings".localized, systemImage:"trophy")
                     }.tag(2)
             }
             .accentColor(.primary)
             .transition(.slide)
-            
-        }else {
-            Onboarding()
             
         }
     }

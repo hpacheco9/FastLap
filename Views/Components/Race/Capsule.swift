@@ -9,20 +9,21 @@ import SwiftUI
 
 struct LiveCapsule: View {
     
-    var status: Status
+    var status: Status?
 
     var body: some View {
         ZStack {
             Circle().frame(width: 5, height: 20, alignment: .leading)
-                .foregroundColor(status.color)
+                .foregroundColor(status?.color ?? .clear)
                 .padding(.trailing, 80)
         
-            Text(status.text)
+            Text(status?.text ?? "")
                 .foregroundColor(.primary)
                 .font(.system(size: 12))
+                .accessibilityLabel(Text("Status: \(status?.text ?? "")"))
             
-            Capsule().fill(status.color.opacity(0.1))
-                .stroke(status.color, lineWidth: 1)
+            Capsule().fill(status?.color.opacity(0.1) ?? .clear)
+                .stroke(status?.color ?? .clear, lineWidth: 1)
                 .frame(width: 100, height: 25, alignment: .center).padding(.trailing, 10)
         }
     }

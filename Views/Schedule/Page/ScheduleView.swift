@@ -22,30 +22,37 @@ struct Schedule: View {
         VStack {
             switch viewmodel.state {
                 case .loading:
-                    ProgressView()
+                    VStack {
+                        EmptyCard()
+                            
+                        EmptyCard()
+                            
+                    }
                 case .loaded(let pasRaces, let upcomingRaces ):
                      VStack {
+
                          Picker("Type", selection: $type) {
                              ForEach(ScheduleViewModel.ScheduleTypes.allCases, id: \.self){
                                 Text($0.rawValue)
                             }
-                      }
+                         }
                         .pickerStyle(.segmented)
                         .padding()
-                         
-                         ScheduleView(scheduleTypes: type, pastRaces: pasRaces, upcomingRaces: upcomingRaces)    
-                }
+                         ScheduleView(scheduleTypes: type, pastRaces: pasRaces, upcomingRaces: upcomingRaces)
+                             
+                     }.frame(maxHeight: .infinity, alignment: .top)
+                    
             case .empty:
                  EmptyView()
             case .error:
                 Text("Error")
             }
         }
-        .navigationTitle("Schedule")
+        .navigationTitle(viewmodel.title)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             Task {
-             //await viewmodel.loadData()
+              await viewmodel.loadData()
             }
         }
     }

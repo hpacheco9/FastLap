@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct SchedulePageViewmodel {
+class SchedulePageViewmodel {
     
     
     var model: ScheduleModel
@@ -16,21 +16,25 @@ struct SchedulePageViewmodel {
     
     var id: Int { model.id }
     
-    var country: String { model.competition.location.country }
+    lazy var country: String = model.competition.location.country
     
-    var circuitId: Int { model.circuit.id }
-    var circuitName: String { model.circuit.name }
-    var circuitImage: String { model.circuit.image }
+    lazy var circuitId: Int =  model.circuit.id
+    lazy var circuitName: String =  model.circuit.name
+    lazy var circuitImage: String = model.circuit.image
     
-    var day: String { model.day }
-    var month: String { model.month }
-    var time: String { model.time }
+    lazy var day: String = model.day
+    lazy var month: String =  model.month
+    lazy var year: String =  model.year
+    lazy var time: String =  model.time
     
-    var comperitionId: Int { model.competition.id }
     
-    var competitionName: String { model.competition.name }
+    lazy var competionId: Int = model.competition.id
     
-    var type: String { model.type }
+    lazy var competitionName: String = model.competition.name
+    
+    lazy var type: String =  model.type
+    
+    lazy var status: Status? =  model.status 
     
     init(model: ScheduleModel) {
         self.model = model

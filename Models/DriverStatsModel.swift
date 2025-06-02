@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 
 struct DriverStatsModel {
@@ -14,6 +15,7 @@ struct DriverStatsModel {
         let id: Int?
         let name: String?
         let logo: String?
+        let color: Color
     }
     
     let id: Int

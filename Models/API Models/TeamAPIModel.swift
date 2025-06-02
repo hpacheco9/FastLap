@@ -15,4 +15,4 @@ struct TeamAPIModel: Decodable {
 }
 
 
-extension TeamAPIModel: Cenas {}
+extension TeamAPIModel: AssetForTeam {}

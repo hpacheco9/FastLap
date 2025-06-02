@@ -10,6 +10,7 @@ import SwiftUI
 struct Header: View {
     
     let title: String
+    let buttonTitle: String
 
     @Environment(\.colorScheme) var colorScheme
     
@@ -19,11 +20,13 @@ struct Header: View {
                .font(Font.system(size: 20, weight: .semibold))
                .frame(maxWidth: .infinity, alignment: .leading)
                .foregroundStyle(.primary)
-       
-           
-               Text("see all > ")
+               .accessibilityAddTraits(.isHeader)
+               
+               Text(buttonTitle)
                     .foregroundStyle(.orange)
                     .font(Font.system(size: 18, weight: .medium))
+                    .accessibilityLabel(buttonTitle + "button")
+                    
            
         }
        .padding()
@@ -31,5 +34,5 @@ struct Header: View {
 }
 
 #Preview {
-    Header(title: "Upcoming")
+    Header(title: "Upcoming", buttonTitle: "see all>")
 }

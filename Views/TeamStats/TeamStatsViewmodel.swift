@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 @Observable
 class TeamStatsViewmodel {
     enum State {
@@ -18,7 +19,7 @@ class TeamStatsViewmodel {
     
     struct Dependencies {
         let service: TeamStatsServiceProtocol
-        let team: TeamModel?
+        let team: TeamPageViewmodel?
     }
     
     private let dependencies: Dependencies
@@ -53,13 +54,15 @@ class TeamStatsViewmodel {
             let team = TeamStatsPageViewmodel(model:
                 TeamStatsModel(id: item.id,
                                name: item.name,
-                               logo: item.assetForTeamId(item.id),
+                               logo: item.assetForTeamId(item.id).0,
                                position: currentTeam.position,
                                points: currentTeam.points,
                                totalWins: item.totalWins.number,
                                championships: item.championships,
                                poles: item.totalPoles ?? 0,
-                               fastestLaps: item.totalFastestLaps ?? 0)
+                               fastestLaps: item.totalFastestLaps ?? 0,
+                               color:  item.assetForTeamId(item.id).1
+                              )
             )
             
             state = .loaded(team)

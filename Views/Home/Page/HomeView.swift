@@ -10,24 +10,28 @@ import SwiftUI
 struct Home: View {
     
     var viewModel: HomeViewModel
-    
+
     @EnvironmentObject private var coordinator: Coordinator
     
     var body: some View {
        VStack {
+           
            switch viewModel.state {
            case .loading:
-               ProgressView()
+               VStack {
+                 EmptyHomeView()
+               }
+               
             case .loaded(let driver, let schedule):
                 ScrollView {
                     VStack {
-                        Header(title: "Standings")
+                        Header(title: viewModel.headerStandings, buttonTitle: viewModel.buttonSeeAll)
                             .padding(.horizontal, 5)
                             .onTapGesture {
                                 coordinator.push(page: .standings(viewmodel:
-                                                                   StandingsViewModel(
-                                                                        dependencies: .init(
-                                                                            service: StandingsService(client: APIClient(session: URLSession(configuration: .default)))))))
+                                       StandingsViewModel(
+                                            dependencies: .init(
+                                                service: StandingsService(client: APIClient(session: URLSession(configuration: .default)))))))
                             }
                            
                        CardDriver(driver: driver)
@@ -39,7 +43,7 @@ struct Home: View {
                                              service: DriverStatsService(client: APIClient(session: URLSession(configuration: .default))), driver: driver))))
                         }
                         
-                        Header(title: "header.upcoming".localized)
+                        Header(title: viewModel.headerUpcoming, buttonTitle: viewModel.buttonSeeAll)
                             .padding(.horizontal, 5)
                             .onTapGesture {
                                 coordinator.push(page: .shcedule(viewmodel: ScheduleViewModel(
@@ -47,7 +51,26 @@ struct Home: View {
                                         service: ScheduleService(client: APIClient(session: URLSession(configuration: .default)))))))
                             }
                         
-                       CardRace_(schedule: schedule , status: .live).padding(10).padding(.vertical, -15)
+                        
+                        CardRace_(schedule: schedule, status: .live).padding(10).padding(.vertical, -15)
+                                .onTapGesture {
+                                    guard let competitionId = schedule?.id else {
+                                        return
+                                    }
+                                    coordinator.present(sheet: .results(
+                                        viewModel: RaceStandingsViewmodel(
+                                            dependencies: .init(
+                                                service: RaceRankingsService(client: APIClient(session: URLSession(configuration: .default))),
+                                                race: String(competitionId)
+                                            )
+                                        )
+                                    )
+                                )
+                                }
+                                .emptyContent(isEmpty: schedule == nil) {
+                                    NoSchedule()
+                                    .padding(.vertical, -15)
+                        }
                     }
                 }
             case .empty:
@@ -57,26 +80,23 @@ struct Home: View {
             }
        }.onAppear {
            Task {
-              // await viewModel.loadData()
+              await viewModel.loadData()
            }
        }
-       .navigationTitle("Home")
+       .navigationTitle(viewModel.title)
+       .accessibilityAddTraits(.isHeader)
        .navigationBarTitleDisplayMode(.inline)
        .frame(maxHeight: .infinity)
     }
 }
 
 #Preview {
-    @Previewable @EnvironmentObject var coordinator: Coordinator
     Home(
         viewModel: HomeViewModel(
             dependencies: .init(
                 service: Homeservice(client: APIClient(session: URLSession(configuration: .default)))
-                
             )
         )
-        
     )
+    .environmentObject(Coordinator())
 }
-
-

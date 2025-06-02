@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 struct DriverModel {
     
@@ -19,10 +19,11 @@ struct DriverModel {
         let imageUrl: String
     }
     
-    struct Team: Cenas {
+    struct Team: AssetForTeam  {
         let id: Int
         let name: String
         let logo: String
+        let color: Color
     }
     
     let position: Int

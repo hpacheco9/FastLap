@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CardTeam: View {
     
-    let team: TeamModel
+    let team: TeamPageViewmodel
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -62,9 +62,11 @@ struct CardTeam: View {
                         Text("Pos")
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.gray)
-                        Text("\(team.position)".addZero())
+                            .accessibilityHidden(true)
+                        Text("\(team.position)".addZero)
                             .font(.system(size: 40, weight: .bold))
                             .foregroundColor(.primary)
+                            .accessibilityLabel("Position \(team.position)")
                     }
                     .padding(.leading, 30)
                     .padding(.bottom, 10)
@@ -73,9 +75,11 @@ struct CardTeam: View {
                         Text("Pts")
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.gray)
-                        Text("\(team.points)".addZero())
+                            .accessibilityHidden(true)
+                        Text("\(team.points)".addZero)
                             .font(.system(size: 40, weight: .bold))
                             .foregroundColor(.primary)
+                            .accessibilityLabel(" \(team.points) Points ")
                     }
                     .frame(maxWidth: 330, alignment: .leading)
                     .padding(.leading, 30)
@@ -92,6 +96,7 @@ struct CardTeam: View {
                             }
                             
                             .padding(.trailing, 30)
+                            .accessibilityHidden(true)
                            
                         }
                     }
@@ -102,17 +107,4 @@ struct CardTeam: View {
         .padding(10)
         
     }
-}
-
-#Preview {
-    
-let teamModel = TeamModel(
-        id: 2,
-        position: 2,
-        points: 409,
-        name: "Mercedes-Amg Petronas F1 Team",
-        logo: "kick"
-    )
-    
-   CardTeam(team: teamModel)
 }

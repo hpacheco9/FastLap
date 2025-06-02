@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 
 struct TeamStatsModel {
@@ -19,5 +20,6 @@ struct TeamStatsModel {
     let championships: Int
     let poles: Int
     let fastestLaps: Int
+    let color: Color
     
 }

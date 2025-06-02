@@ -39,12 +39,12 @@ struct Onboarding: View {
                     isFirstLaunch = false
                 }) {
                     Text("getstarted".localized)
-                        .font(.system(size: 22, weight: .medium, design: .default))
-                        .padding(.horizontal, 40)
+                        .font(.system(size: 22, weight: .regular, design: .default))
+                        .padding(.horizontal, 30)
                         .padding(.vertical, 15)
                         .background(Color.primary)
                         .foregroundColor(colorScheme == .dark ? .black : .white)
-                        .cornerRadius(5)
+                        .cornerRadius(7)
                 }
                 .opacity(dataModel.isLastPage() ? 1 : 0)
                 .offset(y: dataModel.isLastPage() ? 0 : 20)

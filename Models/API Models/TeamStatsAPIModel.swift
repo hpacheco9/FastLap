@@ -69,6 +69,6 @@ struct TeamStatsAPIModel: Decodable {
 }
 
 
-extension TeamStatsAPIModel.Response : Cenas {}
+extension TeamStatsAPIModel.Response : AssetForTeam  {}
 
 

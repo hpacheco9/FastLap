@@ -11,9 +11,9 @@ struct StandingsView: View {
     
     var standingsType: StandingTypes
     
-    let drivers: [DriverModel]
+    let drivers: [DriverPageViewmodel]
     
-    let teams: [TeamModel]
+    let teams: [TeamPageViewmodel]
     
     var body: some View {
         

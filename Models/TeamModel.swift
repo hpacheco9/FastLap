@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
+
 
 
 struct TeamModel {
@@ -15,6 +17,7 @@ struct TeamModel {
     let points: Int
     let name: String
     let logo: String
+    let color: Color
 }
 
 

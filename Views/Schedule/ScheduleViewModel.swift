@@ -27,6 +27,7 @@ class ScheduleViewModel {
         let service: ScheduleServiceProtocol
     }
     
+    let title = LocalizationKey.Title.schedule.localized
     
     private let dependencies: Dependencies
     var state: State = .loading
@@ -35,6 +36,8 @@ class ScheduleViewModel {
         self.dependencies = dependencies
     }
     
+    
+    @MainActor
     func loadData() async {
         do {
             
@@ -72,8 +75,8 @@ class ScheduleViewModel {
                     
                     if let existing = lastPastRaceByCircuit[circuitId],
                        let es = existing.date,
-                       let ed = isoFormatter.date(from: es),
-                       ed > date {
+                       let raceDate = isoFormatter.date(from: es),
+                       raceDate > date {
                         
                     } else {
                         lastPastRaceByCircuit[circuitId] = race
@@ -93,7 +96,6 @@ class ScheduleViewModel {
             let pastRaces =  makeSchedule(schedule: lastPastRaceByCircuit, isofortematter: isoFormatter)
             let upcomingRaces = makeSchedule(schedule: nextFutureRaceByCircuit, isofortematter: isoFormatter)
             
-                
             state = .loaded(pastRaces, upcomingRaces)
         }
         catch {
@@ -114,6 +116,7 @@ class ScheduleViewModel {
                     let minute = comps.minute ?? 0
 
                     let model = SchedulePageViewmodel(model: ScheduleModel(
+                        
                         id: item.id,
                         competition: .init(
                             id: item.competition.id,
@@ -128,14 +131,18 @@ class ScheduleViewModel {
                             name: item.circuit.name,
                             image: item.circuit.assetForCircuitId(item.circuit.id)
                         ),
-                        type: item.type,
+                        
+                        type: item.type.abreviation,
                         day: day,
-                        month: month + " " + String(year).suffix(2),
-                        time: String(format: "%02d.%02d", hour, minute),
+                        month: month,
+                        year: String(String(year).suffix(2)),
+                        time: String(hour) + ":" + String(minute).addZero,
                         timezone: item.timezone,
                         status: item.status
+                        
                         )
                     )
+                    
                     return (model, date)
                 }
                 .sorted { $0.date < $1.date }

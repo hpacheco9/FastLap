@@ -41,7 +41,7 @@ enum Sheet: Identifiable, Hashable, Equatable {
         hasher.combine(id)
     }
     
-    case driverprofile(viewModel: DriverStatsViewmodel), teamprofile(viewmodel: TeamStatsViewmodel)
+    case driverprofile(viewModel: DriverStatsViewmodel), teamprofile(viewmodel: TeamStatsViewmodel) ,results(viewModel: RaceStandingsViewmodel)
     
     var id : String {
         switch self {
@@ -49,6 +49,8 @@ enum Sheet: Identifiable, Hashable, Equatable {
             "/driverprofile"
         case .teamprofile:
             "/teamprofile"
+        case .results:
+            "/results"
         }
     }
 }
@@ -60,25 +62,25 @@ class Coordinator: ObservableObject {
     @Published var path = NavigationPath()
     @Published var sheet: Sheet?
     
-    var schedule: ScheduleViewModel =  ScheduleViewModel(
+   lazy var schedule: ScheduleViewModel =  ScheduleViewModel(
             dependencies: .init(
                 service: ScheduleService(client: APIClient(session: URLSession(configuration: .default)))
             )
         )
     
-    var home = HomeViewModel(
+   lazy var home = HomeViewModel(
         dependencies: .init(
             service: Homeservice(client: APIClient(session: URLSession(configuration: .default)))
         )
     )
     
-    var standings = StandingsViewModel(
+   lazy var standings = StandingsViewModel(
         dependencies: .init(
             service: StandingsService(client: APIClient(session: URLSession(configuration: .default)))
           )
       )
     
-    var driver: DriverStatsViewmodel = DriverStatsViewmodel(
+   lazy var driver: DriverStatsViewmodel = DriverStatsViewmodel(
         dependencies:
                 .init(
                     service: DriverStatsService(client: APIClient(session: URLSession(configuration: .default))), driver: nil
@@ -86,12 +88,18 @@ class Coordinator: ObservableObject {
         )
     
     
-    var team: TeamStatsViewmodel = TeamStatsViewmodel(
+   lazy var team: TeamStatsViewmodel = TeamStatsViewmodel(
         dependencies:
                 .init(
                     service: TeamStatsService(client: APIClient(session: URLSession(configuration: .default))), team: nil
             )
         )
+    
+   lazy var results: RaceStandingsViewmodel =   RaceStandingsViewmodel(
+        dependencies: .init(
+            service: RaceRankingsService(client: APIClient(session: URLSession(configuration: .default))), race: "1671"
+        )
+     )
         
     
     func push(page: Page) {
@@ -148,6 +156,10 @@ class Coordinator: ObservableObject {
         case let .teamprofile(viewmodel):
             NavigationStack {
                 TeamStatsView(viewmodel: viewmodel)
+            }
+        case let .results(viewmodel):
+            NavigationStack {
+                RaceStandingsPage(viewmodel: viewmodel)
             }
         }
     }

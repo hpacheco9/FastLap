@@ -6,40 +6,46 @@
 //
 
 import Foundation
-import Observation
+
 
 @Observable
 class HomeViewModel {
     
     enum State {
         case loading
-        case loaded(DriverModel, SchedulePageViewmodel)
+        case loaded(DriverPageViewmodel, SchedulePageViewmodel?)
         case empty
         case error
     }
     
     struct Dependencies {
         let service: HomeServiceProtocol
+        
     }
+    
+    let headerUpcoming = LocalizationKey.Header.upcoming.localized
+    let headerStandings = LocalizationKey.Header.standings.localized
+    let title = LocalizationKey.Title.home.localized
+    let buttonSeeAll = LocalizationKey.Button.seeall.localized
+    
     
     private let dependencies: Dependencies
     var state: State = .loading
     
     init (dependencies: Dependencies) {
         self.dependencies = dependencies
+
     }
     
+    @MainActor
     func loadData() async {
-        
         do {
-            
             async let rankings =  try await dependencies.service.fetchRankings()
             async let schedule =  try await dependencies.service.fetchSchedule()
             
-            let (races, drivers) = try await (schedule, rankings)
-
+            let (drivers, races) = try await (rankings, schedule)
             
-            guard !races.response.isEmpty else {
+           guard !races.response.isEmpty else {
                 state = .empty
                 return
             }
@@ -51,62 +57,59 @@ class HomeViewModel {
                 f.formatOptions = [.withInternetDateTime]
                 return f
             }()
+            
             let now = Date()
 
-            guard
-                let nextRace = scheduleResponses
-                    .compactMap({ race -> (Date, ScheduleAPIModel.Response)? in
-                        guard
-                            let ds = race.date,
-                            let date = isoFormatter.date(from: ds),
-                            date >= now
-                        else { return nil }
-                        return (date, race)
-                    })
-                    .min(by: { $0.0 < $1.0 })?
-                    .1
-            else {
-                return
-            }
-            guard
-                let ds = nextRace.date,
-                let raceDate = isoFormatter.date(from: ds)
-            else {
-                return
-            }
-
-            let calendar = Calendar.current
-            let day   = String(calendar.component(.day,   from: raceDate))
-            let month = calendar.component(.month, from: raceDate).montNameMonth()
-            let year  = calendar.component(.year,  from: raceDate)
-            let hour  = calendar.component(.hour,  from: raceDate)
-            let minute   = calendar.component(.minute,from: raceDate)
+            let nextRace = scheduleResponses.compactMap({ race -> (Date, ScheduleAPIModel.Response)? in
+                    guard let ds = race.date,
+                    let date = isoFormatter.date(from: ds),
+                    date >= now
+                    else { return nil }
+                    return (date, race)
+                })
+                .min(by: { $0.0 < $1.0 })?
+                .1
+                
+                var upcomingRace: SchedulePageViewmodel? = nil
             
-            let upcomingRace = SchedulePageViewmodel(model: ScheduleModel(
-                id: nextRace.id,
-                competition: ScheduleModel.Competition(
-                    id: nextRace.competition.id ,
-                    name: nextRace.competition.name,
-                    location: ScheduleModel.Competition.Location(
-                        country: nextRace.competition.location.country,
-                        city: nextRace.competition.location.city
-                    )
-                ),
-                circuit: ScheduleModel.Circuit(
-                    id: nextRace.circuit.id,
-                    name: nextRace.circuit.name,
-                    image: nextRace.circuit.assetForCircuitId(nextRace.circuit.id)
-                ),
-                type: nextRace.type,
-                day: day,
-                month: month + " " + String(year).suffix(2),
-                time: String(format: "%02d.%02d", hour, minute),
-                timezone: nextRace.timezone,
-                status: nextRace.status
-            )
-        )
+                if let nextRace = nextRace,
+                   let ds = nextRace.date,
+                   let raceDate = isoFormatter.date(from: ds) {
+                    
+                    let calendar = Calendar.current
+                    let day   = String(calendar.component(.day,   from: raceDate))
+                    let month = calendar.component(.month, from: raceDate).montNameMonth()
+                    let year  = calendar.component(.year,  from: raceDate)
+                    let hour  = calendar.component(.hour,  from: raceDate)
+                    let minute   = calendar.component(.minute,from: raceDate)
+                    
+                    upcomingRace = SchedulePageViewmodel(model: ScheduleModel(
+                        id: nextRace.id,
+                        competition: ScheduleModel.Competition(
+                            id: nextRace.competition.id ,
+                            name: nextRace.competition.name,
+                            location: ScheduleModel.Competition.Location(
+                                country: nextRace.competition.location.country,
+                                city: nextRace.competition.location.city
+                            )
+                        ),
+                        circuit: ScheduleModel.Circuit(
+                            id: nextRace.circuit.id,
+                            name: nextRace.circuit.name,
+                            image: nextRace.circuit.assetForCircuitId(nextRace.circuit.id)
+                        ),
+                        type: nextRace.type.abreviation,
+                        day: day,
+                        month: month,
+                        year: String(String(year).suffix(2)),
+                        time: String(hour) + ":" + String(minute).addZero,
+                        timezone: nextRace.timezone,
+                        status: nextRace.status
+                    ))
+                }
+            
             guard let driver = drivers.response.map({ response in
-                DriverModel(
+               DriverPageViewmodel(model:  DriverModel(
                     position: response.position,
                     driver: DriverModel.Driver(
                         id: response.driver.id,
@@ -115,11 +118,11 @@ class HomeViewModel {
                         abbreviation: response.driver.abbreviation,
                         imageUrl: response.driver.imageUrl
                     ),
-                    team: DriverModel.Team(id: response.team.id, name: response.team.name, logo: response.team.assetForTeamId(response.team.id)),
+                    team: DriverModel.Team(id: response.team.id, name: response.team.name, logo: response.team.assetForTeamId(response.team.id).0, color: response.team.assetForTeamId(response.team.id).1),
                     points: response.points ?? 0,
                     wins: response.wins,
                     behind: response.behind,
-                    season: response.season)
+                    season: response.season))
                 
             }).first else {
                 state = .empty
@@ -134,8 +137,3 @@ class HomeViewModel {
     }
 }
     
-    
-
-
-
-

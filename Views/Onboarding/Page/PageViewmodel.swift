@@ -8,15 +8,15 @@
 import Foundation
 
 
-struct PageViewmodel {
+class PageViewmodel {
     
     var model: PageModel
     
-    var title: String { model.title }
+    lazy var title: String =  model.title
     
-    var image: String { model.image }
+    lazy var image: String = model.image
     
-    var description: String { model.description }
+    lazy var description: String = model.description
     
     init(model: PageModel) {
         self.model = model

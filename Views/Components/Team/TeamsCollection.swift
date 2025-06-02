@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TeamsCollection: View {
-    let teams: [TeamModel]
+    let teams: [TeamPageViewmodel]
     
     @EnvironmentObject var coordinator: Coordinator
 

@@ -8,18 +8,18 @@
 import Foundation
 
 
-struct TeamStatsPageViewmodel {
+class TeamStatsPageViewmodel {
     
     var model: TeamStatsModel
     
-    
-    var name: String { model.name }
-    var logo: String { model.logo }
-    var position: String { "\(model.position)" }
-    var points: String { "\(model.points)" }
-    var wins: String { "\(model.totalWins)" }
-    var poles: String { "\(model.poles)" }
-    var championships: String { "\(model.championships)" }
+   lazy var name: String  = model.name
+   lazy var logo: String = model.logo
+   lazy var position: Int = model.position
+   lazy var points: Int =  model.points
+   lazy var wins: String  =  "\(model.totalWins)"
+   lazy var poles: String =  "\(model.poles)"
+   lazy var championships: String =  "\(model.championships)"
+   lazy var fastestLaps: String =  "\(model.fastestLaps)"
     
     
 

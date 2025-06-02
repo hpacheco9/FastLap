@@ -11,14 +11,13 @@ struct DriverProfile: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    let viewmodel: DriverStatsViewmodel
+    var viewmodel: DriverStatsViewmodel
     
     var body: some View {
         VStack {
             switch viewmodel.state {
             case .loading:
                 ProgressView()
-
             case .loaded(let driver):
                 VStack {
                     ScrollView(showsIndicators: false) {
@@ -30,6 +29,7 @@ struct DriverProfile: View {
                                     .foregroundColor(.orange.opacity(0.8))
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .padding(.leading, 10)
+                                    .accessibilityLabel("Driver Number")
                                 
                                 AsyncImage(url: URL(string: driver.image)) { image in
                                     image
@@ -77,6 +77,7 @@ struct DriverProfile: View {
                                         VStack(alignment: .leading, spacing: 15) {
                                             Text("F1 2025")
                                                 .font(.system(size: 24, weight: .semibold))
+                                                .accessibilityLabel("f1 season 2025")
                                             Text("Championship stats")
                                                 .font(.subheadline)
                                         }
@@ -98,8 +99,10 @@ struct DriverProfile: View {
                                             Text("Position")
                                                 .font(.system(size: 20))
                                                 .foregroundStyle(.secondary)
-                                            Text("\(driver.position)".addZero())
+                                                .accessibilityHidden(true)
+                                            Text("\(driver.position)".addZero)
                                                 .font(.system(size: 49, weight: .bold))
+                                                .accessibilityLabel(Text(" Postion: \(driver.position)".addZero))
                                         }
                                         .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -107,8 +110,10 @@ struct DriverProfile: View {
                                             Text("Wins")
                                                 .font(.system(size: 20))
                                                 .foregroundStyle(.secondary)
-                                            Text("\(driver.wins)".addZero())
+                                                .accessibilityHidden(true)
+                                            Text("\(driver.wins)".addZero)
                                                 .font(.system(size: 49, weight: .bold))
+                                                .accessibilityLabel(Text(" Wins: \(driver.wins)".addZero))
                                         }
                                         .frame(maxWidth: .infinity, alignment: .center)
 
@@ -116,8 +121,10 @@ struct DriverProfile: View {
                                             Text("Points")
                                                 .font(.system(size: 20))
                                                 .foregroundStyle(.secondary)
-                                            Text("\(driver.points)".addZero())
+                                                .accessibilityHidden(true)
+                                            Text("\(driver.points)".addZero)
                                                 .font(.system(size: 49, weight: .bold))
+                                                .accessibilityLabel(Text(" Points: \(driver.points)".addZero))
                                                 
                                         }
                                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -136,8 +143,11 @@ struct DriverProfile: View {
                                             Text("Wins")
                                                 .font(.system(size: 16))
                                                 .foregroundStyle(.secondary)
+                                                .accessibilityHidden(true)
                                             Text("\(driver.total_wins)")
                                                 .font(.system(size: 40, weight: .bold))
+                                                .accessibilityLabel(Text("Total Wins: \(driver.total_wins)"))
+                                            
                                         }
                                         .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -145,8 +155,10 @@ struct DriverProfile: View {
                                             Text("Podiums")
                                                 .font(.system(size: 16))
                                                 .foregroundStyle(.secondary)
+                                                .accessibilityHidden(true)
                                             Text("\(driver.podiums)")
                                                 .font(.system(size: 40, weight: .bold))
+                                                .accessibilityLabel(Text("Podiums: \(driver.podiums)"))
                                         }
                                         .frame(maxWidth: .infinity, alignment: .center)
 
@@ -154,8 +166,10 @@ struct DriverProfile: View {
                                             Text("GPs Entered")
                                                 .font(.system(size: 16))
                                                 .foregroundStyle(.secondary)
+                                                .accessibilityHidden(true)
                                             Text("\(driver.gpEntries)")
                                                 .font(.system(size: 40, weight: .bold))
+                                                .accessibilityLabel(Text("GPs Entered: \(driver.gpEntries)"))
                                         }
                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                     }
@@ -166,9 +180,11 @@ struct DriverProfile: View {
                                         Text("World Championships")
                                             .font(.system(size: 25, weight: .semibold))
                                             .padding(.top, 10)
+                                            .accessibilityHidden(true)
 
                                         Text(String(driver.worldChampionships))
                                             .font(.system(size: 60, weight: .bold))
+                                            .accessibilityLabel(Text("World Championships: \(driver.worldChampionships)"))
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 }

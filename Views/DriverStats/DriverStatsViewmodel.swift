@@ -19,7 +19,7 @@ class DriverStatsViewmodel {
     
     struct Dependencies {
         let service: DriverStatsServiceProtocol
-        let driver: DriverModel?
+        let driver: DriverPageViewmodel?
     }
     
     private let dependencies: Dependencies
@@ -29,7 +29,7 @@ class DriverStatsViewmodel {
         self.dependencies = dependencies
     }
     
-    
+    @MainActor
     func loadData() async {
 
         guard let currentDriver = dependencies.driver else {
@@ -44,8 +44,6 @@ class DriverStatsViewmodel {
             
             
             let data = try await dependencies.service.fetchDriver(id: driverIdString)
-            
-            print(data)
 
             guard let first = data.response.first else {
                 state = .empty
@@ -67,14 +65,13 @@ class DriverStatsViewmodel {
                     team: .init(
                         id: first.teams.first?.team.id ,
                         name: first.teams.first?.team.name ?? "",
-                        logo: first.teams.first?.team
-                            .assetForTeamId(first.teams.first?.team.id ?? 0) ?? ""
+                        logo: first.teams.first?.team.assetForTeamId(first.teams.first?.team.id ?? 0).0 ?? "", color: first.teams.first?.team.assetForTeamId(first.teams.first?.team.id ?? 0).1 ?? .clear
                     ),
                     worldChampionships: first.championships ?? 0,
                     gpEntries: first.grands_prix_entered ?? 0
                 )
             )
-            print(driver)
+            
             state = .loaded(driver)
         }
         catch {

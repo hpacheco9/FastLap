@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import Observation
 
 @Observable
 class StandingsViewModel {
     
     enum State {
         case loading
-        case loaded([DriverModel], [TeamModel])
+        case loaded([DriverPageViewmodel], [TeamPageViewmodel])
         case empty
         case error
     }
@@ -24,10 +25,13 @@ class StandingsViewModel {
     private let dependencies: Dependencies
     var state: State = .loading
     
+    let title = LocalizationKey.Title.standings.localized
+    
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
     
+    @MainActor
     func loadData() async {
         state = .loading
         
@@ -50,18 +54,20 @@ class StandingsViewModel {
             
             
             let teams = teamResponse.response.map { item in
-                TeamModel(
+                TeamPageViewmodel(model:  TeamModel(
                     id: item.team.id,
                     position: item.position,
                     points: item.points,
                     name: item.team.name,
-                    logo: item.team.assetForTeamId(item.team.id)
-                )
+                    logo: item.team.assetForTeamId(item.team.id).0,
+                    color: item.team.assetForTeamId(item.team.id).1
+                ))
             }
             
             
             let drivers = driverResponse.response.map { item in
-                DriverModel(
+                
+                DriverPageViewmodel(model:  DriverModel(
                     position: item.position,
                     driver: .init(
                         id: item.driver.id,
@@ -73,13 +79,14 @@ class StandingsViewModel {
                     team: .init(
                         id: item.team.id,
                         name: item.team.name,
-                        logo: item.team.assetForTeamId(item.team.id)
+                        logo: item.team.assetForTeamId(item.team.id).0,
+                        color: item.team.assetForTeamId(item.team.id).1
                     ),
                     points: item.points ?? 0,
                     wins: item.wins,
                     behind: item.behind,
                     season: item.season
-                )
+                ))
             }
             
             state = .loaded(drivers, teams)

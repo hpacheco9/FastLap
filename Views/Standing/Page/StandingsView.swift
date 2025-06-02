@@ -23,7 +23,10 @@ struct Standings: View {
         VStack {
             switch viewModel.state {
             case .loading:
-                ProgressView()
+                VStack {
+                    EmptyCard()
+                    EmptyCard()
+                }
             case .loaded(let drivers, let teams):
                 VStack {
                     Picker("Type", selection: $type) {
@@ -44,10 +47,10 @@ struct Standings: View {
             }
         }
         .task {
-           await viewModel.loadData()
-         }
+             await viewModel.loadData()
+        }
         .frame(alignment: .top)
-        .navigationTitle("Standings")
+        .navigationTitle(viewModel.title)
         .toolbarTitleDisplayMode(.inline)
     }
 }

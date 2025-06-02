@@ -19,7 +19,6 @@ protocol Endpointable {
 }
 
 
-
 extension Endpointable {
     var scheme: String { "https" }
     var method: HttpMethod { .get }
@@ -27,10 +26,8 @@ extension Endpointable {
     
     var headers: [String: String] {
         ["x-rapidapi-host": "v1.formula-1.api-sports.io",
-        "x-rapidapi-key": "3798c3857b8b8825d148f2416dc5e007"]
+         "x-rapidapi-key": "3798c3857b8b8825d148f2416dc5e007"]
     }
-    
-  
     
     var url: URL? {
         
@@ -39,25 +36,18 @@ extension Endpointable {
         components.host = host
         components.path = path
         components.queryItems = parameters
-
+        
         return components.url
         
     }
     
     func urlRequest(url: URL) -> URLRequest {
         
-       var urlRequest = URLRequest(url: url)
+        var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = method.rawValue
         headers.forEach { urlRequest.addValue($0.value, forHTTPHeaderField: $0.key) }
         
         return urlRequest
         
     }
-    
-
-    
-    
 }
-
-
-
