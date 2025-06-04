@@ -14,6 +14,7 @@ struct testev2App: App {
     var body: some Scene {
         WindowGroup {
           Main()
+            .preferredColorScheme(.dark)
         }
     }
 }

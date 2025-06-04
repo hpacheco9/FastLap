@@ -52,9 +52,6 @@ struct CardTeam: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 10)
             .padding(.leading, 20)
-            
-
-
                 
                 // Pos e Pts
                 HStack(alignment: .bottom) {
@@ -105,6 +102,5 @@ struct CardTeam: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(10)
-        
     }
 }

@@ -14,6 +14,7 @@ protocol HomeServiceProtocol {
 
 struct Homeservice {
     let client: APIClientFetchable
+
     
 
     init(client: APIClientFetchable) {

@@ -86,6 +86,9 @@
     "f1 season 2025" : {
 
     },
+    "F1 season 2025" : {
+
+    },
     "Fastest Laps" : {
 
     },
@@ -234,6 +237,9 @@
     "Points" : {
 
     },
+    "Points: %lld" : {
+
+    },
     "Poles" : {
 
     },
@@ -247,6 +253,9 @@
 
     },
     "Position %lld" : {
+
+    },
+    "Position: %lld" : {
 
     },
     "Pts" : {
@@ -314,6 +323,15 @@
         }
       }
     },
+    "Total Fastest Laps: %@" : {
+
+    },
+    "Total Poles: %@" : {
+
+    },
+    "Total Wins: %@" : {
+
+    },
     "Total Wins: %lld" : {
 
     },
@@ -323,7 +341,13 @@
     "Wins" : {
 
     },
+    "Wins: %@" : {
+
+    },
     "World Championships" : {
+
+    },
+    "World Championships: %@" : {
 
     },
     "World Championships: %lld" : {
