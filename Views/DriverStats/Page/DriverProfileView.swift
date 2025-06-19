@@ -101,7 +101,7 @@ struct DriverProfile: View {
                                                 .foregroundStyle(.secondary)
                                                 .accessibilityHidden(true)
                                             Text("\(driver.position)".addZero)
-                                                .font(.system(size: 49, weight: .bold))
+                                                .font(.system(size: 45, weight: .bold))
                                                 .accessibilityLabel(Text(" Postion: \(driver.position)".addZero))
                                         }
                                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -112,7 +112,7 @@ struct DriverProfile: View {
                                                 .foregroundStyle(.secondary)
                                                 .accessibilityHidden(true)
                                             Text("\(driver.wins)".addZero)
-                                                .font(.system(size: 49, weight: .bold))
+                                                .font(.system(size: 45, weight: .bold))
                                                 .accessibilityLabel(Text(" Wins: \(driver.wins)".addZero))
                                         }
                                         .frame(maxWidth: .infinity, alignment: .center)
@@ -123,7 +123,7 @@ struct DriverProfile: View {
                                                 .foregroundStyle(.secondary)
                                                 .accessibilityHidden(true)
                                             Text("\(driver.points)".addZero)
-                                                .font(.system(size: 49, weight: .bold))
+                                                .font(.system(size: 45, weight: .bold))
                                                 .accessibilityLabel(Text(" Points: \(driver.points)".addZero))
                                                 
                                         }

@@ -8,22 +8,31 @@
 import Foundation
 
 protocol ScheduleServiceProtocol {
-    func fetchSchedule() async throws -> ScheduleAPIModel
+    func fetchSchedule() async throws -> [ScheduleDataModel]
+    func fetchScheduleDataModel() throws -> [ScheduleDataModel]
 }
 
 struct ScheduleService {
-    let client: APIClientFetchable
     
-    init(client: APIClientFetchable) {
+    let client: APIClientFetchable
+    let scheduleRepository: ScheduleRepository
+    
+    init(client: APIClientFetchable, scheduleRepository: ScheduleRepository) {
         self.client = client
+        self.scheduleRepository = scheduleRepository
     }
 }
 
 
 extension ScheduleService: ScheduleServiceProtocol {
-    func fetchSchedule() async throws -> ScheduleAPIModel {
+    func fetchSchedule() async throws -> [ScheduleDataModel] {
         let data = try await client.fetch(endpoint: HomeEndpoint.schedule(season: "2023"))
-        return try decode(ScheduleAPIModel.self, data: data)
+        let decoder = try decode(ScheduleAPIModel.self, data: data)
+        return try scheduleRepository.addSchedule(decoder.response, season: 2023)
+    }
+    
+    func fetchScheduleDataModel() throws -> [ScheduleDataModel] {
+        return try scheduleRepository.fetchSchedule(season: 2023)
     }
 }
 

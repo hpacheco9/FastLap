@@ -57,10 +57,6 @@ struct RaceResults: View {
         .frame(height: 75)
         .padding(.horizontal)
         
-        
-       
-
-        
     }
 }
 

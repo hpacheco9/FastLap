@@ -65,6 +65,8 @@ class TeamStatsViewmodel {
                               )
             )
             
+            
+            
             state = .loaded(team)
         }
         catch {

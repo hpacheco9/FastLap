@@ -10,7 +10,6 @@ import Foundation
 struct TeamRankingsAPIModel: Decodable {
     
     struct Response: Decodable {
-        
         let position: Int
         let team: TeamAPIModel
         let points: Int

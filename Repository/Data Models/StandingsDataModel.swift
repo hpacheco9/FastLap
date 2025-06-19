@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftData
-import SwiftUI
 
 
 @Model
@@ -21,7 +20,7 @@ final class StandingDataModel {
     var behind: Int?
     var season: Int
     
-    init(position: Int, driver: Driver, team: Team, points: Int? = nil, wins: Int, behind: Int? = nil, season: Int) {
+    init(position: Int, driver: Driver, team: Team, points: Int?, wins: Int, behind: Int? , season: Int) {
         self.position = position
         self.driver = driver
         self.team = team
@@ -54,13 +53,13 @@ final class Team {
     var id: Int
     var name: String
     var logo: String
-    var color: Color
     
-    init(id: Int, name: String, logo: String, color: Color) {
+    init(id: Int, name: String, logo: String) {
         self.id = id
         self.name = name
         self.logo = logo
-        self.color = color
+        
     }
 }
 
+extension Team: AssetForTeam {}

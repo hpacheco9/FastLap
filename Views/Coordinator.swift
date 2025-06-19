@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 enum Page: Identifiable, Hashable, Equatable {
     
@@ -61,24 +62,33 @@ class Coordinator: ObservableObject {
     
     @Published var path = NavigationPath()
     @Published var sheet: Sheet?
+    @Environment(\.modelContext) private var modelContext
     
    lazy var schedule: ScheduleViewModel =  ScheduleViewModel(
             dependencies: .init(
-                service: ScheduleService(client: APIClient(session: URLSession(configuration: .default)))
+                service: ScheduleService(client: APIClient(session: URLSession(configuration: .default)),
+                         scheduleRepository: ScheduleRepository(modelContext: modelContext))
             )
         )
     
    lazy var home = HomeViewModel(
         dependencies: .init(
-            service: Homeservice(client: APIClient(session: URLSession(configuration: .default)))
+            service: Homeservice(client: APIClient(session: URLSession(configuration: .default)),
+                                 homeRepository: HomeRepository(standingsRepsitory: DriverStandingsRepository(modelContext: modelContext), scheduleRepository: ScheduleRepository(modelContext: modelContext)))
         )
     )
     
    lazy var standings = StandingsViewModel(
-        dependencies: .init(
-            service: StandingsService(client: APIClient(session: URLSession(configuration: .default)))
-          )
-      )
+    dependencies: .init(
+                  service: StandingsService(
+                      client: APIClient(session: URLSession(configuration: .default)),
+                      standingsREpository: StandingsRepository(
+                          driverRepository: DriverStandingsRepository(modelContext: modelContext),
+                          teamStandings: TeamStandingsRepository(modelContext: modelContext)
+                      )
+                  )
+              )
+)
     
    lazy var driver: DriverStatsViewmodel = DriverStatsViewmodel(
         dependencies:

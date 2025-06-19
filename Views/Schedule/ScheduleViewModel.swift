@@ -43,12 +43,12 @@ class ScheduleViewModel {
             
             let data = try await dependencies.service.fetchSchedule()
             
-            guard !data.response.isEmpty else {
+            guard !data.isEmpty else {
                 state = .empty
                 return
             }
             
-            let responses = data.response.compactMap({ $0 })
+            let responses = data.compactMap({ $0 })
             
             let isoFormatter: ISO8601DateFormatter = {
                 let f = ISO8601DateFormatter()
@@ -58,8 +58,8 @@ class ScheduleViewModel {
 
             let now = Date()
 
-            var lastPastRaceByCircuit   = [Int: ScheduleAPIModel.Response]()
-            var nextFutureRaceByCircuit = [Int: ScheduleAPIModel.Response]()
+            var lastPastRaceByCircuit   = [Int: ScheduleDataModel]()
+            var nextFutureRaceByCircuit = [Int: ScheduleDataModel]()
 
             for race in responses {
                 guard
@@ -99,10 +99,66 @@ class ScheduleViewModel {
             state = .loaded(pastRaces, upcomingRaces)
         }
         catch {
-            state = .error
+            do {
+                
+                let data = try dependencies.service.fetchScheduleDataModel()
+                
+                let responses = data.compactMap({ $0 })
+                
+                let isoFormatter: ISO8601DateFormatter = {
+                    let f = ISO8601DateFormatter()
+                    f.formatOptions = [.withInternetDateTime]
+                    return f
+                }()
+
+                let now = Date()
+
+                var lastPastRaceByCircuit   = [Int: ScheduleDataModel]()
+                var nextFutureRaceByCircuit = [Int: ScheduleDataModel]()
+
+                for race in responses {
+                    guard
+                        let ds = race.date,
+                        let date  = isoFormatter.date(from: ds)
+                    else {
+                        continue
+                    }
+
+                    let circuitId = race.circuit.id
+
+                    if date <= now {
+                        
+                        if let existing = lastPastRaceByCircuit[circuitId],
+                           let es = existing.date,
+                           let raceDate = isoFormatter.date(from: es),
+                           raceDate > date {
+                            
+                        } else {
+                            lastPastRaceByCircuit[circuitId] = race
+                        }
+                    } else {
+                        
+                        if let existing = nextFutureRaceByCircuit[circuitId],
+                           let es = existing.date,
+                           let ed = isoFormatter.date(from: es),
+                           ed < date {
+                        } else {
+                            nextFutureRaceByCircuit[circuitId] = race
+                        }
+                    }
+                }
+                
+                let pastRaces =  makeSchedule(schedule: lastPastRaceByCircuit, isofortematter: isoFormatter)
+                let upcomingRaces = makeSchedule(schedule: nextFutureRaceByCircuit, isofortematter: isoFormatter)
+                
+                state = .loaded(pastRaces, upcomingRaces)
+                
+            }catch{
+                state = .error
+            }
         }
         
-        func makeSchedule(schedule: [Int: ScheduleAPIModel.Response], isofortematter: ISO8601DateFormatter) -> [SchedulePageViewmodel] {
+        func makeSchedule(schedule: [Int: ScheduleDataModel], isofortematter: ISO8601DateFormatter) -> [SchedulePageViewmodel] {
             
             schedule.values
                 .compactMap { item -> (model: SchedulePageViewmodel, date: Date)? in

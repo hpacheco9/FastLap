@@ -7,59 +7,43 @@
 
 import Foundation
 import SwiftData
-
+import SwiftUI
 
 @Model
-class ScheduleDataModel{
+class ScheduleDataModel {
     var id: Int
     var competition: Competition
     var circuit: Circuit
     var season: Int
-    var type: String
-    var day: String
-    var month: String
-    var year: String
-    var time: String
+    var type: ScheduleTypes
+    var date: String?
     var timezone: String?
     var status: Status?
     
-    init(id: Int, competition: Competition, circuit: Circuit, type: String, day: String, month: String, year: String, time: String, timezone: String? = nil, status: Status? = nil) {
+    init(id: Int, competition: Competition, circuit: Circuit, season: Int, type: ScheduleTypes, date: String? = nil, timezone: String?, status: Status) {
         self.id = id
         self.competition = competition
         self.circuit = circuit
+        self.season = season
         self.type = type
-        self.day = day
-        self.month = month
-        self.year = year
-        self.time = time
+        self.date = date
         self.timezone = timezone
         self.status = status
     }
 }
-
-@Model
-class Circuit {
+struct Circuit: Codable, CircuitAsset {
     var id: Int
     var name: String
-    var location: String
-    var country: String
-    
-    init(id: Int, name: String, location: String, country: String) {
-        self.id = id
-        self.name = name
-        self.location = location
-        self.country = country
-    }
+    var image: String
 }
 
-@Model
-class Competition {
+struct Competition: Codable {
+    struct Location: Codable {
+        var country: String
+        var city: String
+    }
+
     var id: Int
     var name: String
-    
-    init(id: Int, name: String) {
-        
-        self.id = id
-        self.name = name
-    }
+    var location: Location
 }

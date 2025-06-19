@@ -42,31 +42,41 @@ class StandingsViewModel {
             let (teamResponse, driverResponse) = try await (teamsData, driversData)
             
             
-            guard !teamResponse.response.isEmpty else {
+            guard !teamResponse.isEmpty else {
                 state = .empty
                 return
             }
             
-            guard !driverResponse.response.isEmpty else {
+            guard !driverResponse.isEmpty else {
                 state = .empty
                 return
             }
             
             
-            let teams = teamResponse.response.map { item in
-                TeamPageViewmodel(model:  TeamModel(
-                    id: item.team.id,
-                    position: item.position,
-                    points: item.points,
-                    name: item.team.name,
-                    logo: item.team.assetForTeamId(item.team.id).0,
-                    color: item.team.assetForTeamId(item.team.id).1
-                ))
-            }
+            let teams = createTEams(teamResponse: teamResponse)
             
             
-            let drivers = driverResponse.response.map { item in
+            let drivers = createDrivers(driverResponse: driverResponse)
+    
+            state = .loaded(drivers, teams)
+            
+        } catch {
+            do {
+                let data = try dependencies.service.getStandingsData()
                 
+                let drivers = createDrivers(driverResponse: data.drivers)
+                let teams = createTEams(teamResponse: data.teams)
+                
+                
+                state = .loaded(drivers, teams)
+                
+            }catch {
+                state = .error
+            }
+        }
+        
+        func createDrivers(driverResponse: [StandingDataModel]) -> [DriverPageViewmodel] {
+            return driverResponse.map { item in
                 DriverPageViewmodel(model:  DriverModel(
                     position: item.position,
                     driver: .init(
@@ -89,10 +99,21 @@ class StandingsViewModel {
                 ))
             }
             
-            state = .loaded(drivers, teams)
+        }
+        
+        
+        func createTEams(teamResponse: [TeamStandingsDataModel]) -> [TeamPageViewmodel] {
+            teamResponse.map { item in
+                TeamPageViewmodel(model:  TeamModel(
+                    id: item.team.id,
+                    position: item.position,
+                    points: item.points,
+                    name: item.team.name,
+                    logo: item.team.assetForTeamId(item.team.id).0,
+                    color: item.team.assetForTeamId(item.team.id).1
+                ))
+            }
             
-        } catch {
-            state = .error
         }
     }
 }

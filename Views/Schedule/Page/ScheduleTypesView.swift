@@ -25,7 +25,7 @@ struct ScheduleView: View {
             ScrollView(showsIndicators: false){
                 LazyVStack {
                     ForEach(upcomingRaces, id: \.id) { race in
-                        CardRace_(schedule: race, status: .soon)
+                        CardRace_(schedule: race)
                             .padding(.vertical, 0)
                             .padding(10)
                             .onTapGesture {
@@ -50,7 +50,7 @@ struct ScheduleView: View {
             ScrollView(showsIndicators: false){
                 LazyVStack {
                     ForEach(pastRaces, id: \.id) { race in
-                        CardRace_(schedule: race, status: .soon)
+                        CardRace_(schedule: race)
                             .padding(.vertical, 0)
                             .padding(10)
                             .onTapGesture {

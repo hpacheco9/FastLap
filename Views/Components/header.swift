@@ -11,6 +11,7 @@ struct Header: View {
     
     let title: String
     let buttonTitle: String
+    let action: () -> Void
 
     @Environment(\.colorScheme) var colorScheme
     
@@ -22,10 +23,12 @@ struct Header: View {
                .foregroundStyle(.primary)
                .accessibilityAddTraits(.isHeader)
                
-               Text(buttonTitle)
-                    .foregroundStyle(.orange)
-                    .font(Font.system(size: 18, weight: .medium))
-                    .accessibilityLabel(buttonTitle + "button")
+           Button(buttonTitle){
+               action()
+           }
+            .foregroundStyle(.orange)
+            .font(Font.system(size: 18, weight: .medium))
+            .accessibilityLabel(buttonTitle + "button")
                     
            
         }
@@ -34,5 +37,5 @@ struct Header: View {
 }
 
 #Preview {
-    Header(title: "Upcoming", buttonTitle: "see all>")
+    Header(title: "Upcoming", buttonTitle: "see all>", action: {print("action")})
 }

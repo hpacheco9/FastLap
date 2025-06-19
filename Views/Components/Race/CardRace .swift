@@ -10,7 +10,6 @@ import SwiftUI
 struct CardRace_: View {
     
     var schedule: SchedulePageViewmodel?
-    let status: Status
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -59,7 +58,6 @@ struct CardRace_: View {
                 Text(schedule?.circuitName ?? "")
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(.primary)
-                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             .padding(.leading, 20)
@@ -99,13 +97,10 @@ struct CardRace_: View {
                         .foregroundColor(.gray)
                         .padding(.bottom, 5)
                         .accessibilityHidden(true)
-                       
-                    
                 }
                 
                 Circle().fill(Color.primary).frame(width: 5, height: 5, alignment: .center).padding(.trailing, 2)
                     .padding(.leading, 2)
-                
                 
                 VStack {
                     Text("\( schedule?.type ?? "")")
@@ -128,34 +123,4 @@ struct CardRace_: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-}
-
-#Preview {
-    
-    let scheduleModel = ScheduleModel(
-        id: 1671,
-        competition: ScheduleModel.Competition(
-            id: 2,
-            name: "Bahrain Grand Prix",
-            location: ScheduleModel.Competition.Location(
-                country: "Bahrain",
-                city: "Sakhir"
-            )
-        ),
-        circuit: ScheduleModel.Circuit(
-            id: 2,
-            name: "Bahrain International Circuit",
-            image: "ChinaGP"
-        ),
-        type: "Race",
-        day: "06",
-        month: "April 25", year: "2021",
-        time: "9:00 AM",
-        timezone: "utc",
-        status: Status.completed
-    )
-    
-    let model = SchedulePageViewmodel(model: scheduleModel)
-    
-    CardRace_(schedule: model, status: .soon)
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CardDriver: View {
     
-    let driver: DriverPageViewmodel
+    let driver: DriverPageViewmodel?
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -42,21 +42,21 @@ struct CardDriver: View {
                 // header
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top) {
-                        Image(driver.team.logo)
+                        Image(driver?.team.logo ?? "")
                             .resizable()
                             .scaledToFit()
                             .frame(height: 40)
                             .accessibilityHidden(true)
                         
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(driver.driver.name.components(separatedBy: " ")[0])
+                            Text(driver?.driver.name.components(separatedBy: " ")[0] ?? "")
                                 .foregroundStyle(.primary)
                                 .font(.title2)
-                                .accessibilityLabel(Text("\(driver.driver.name):  \(driver.team.name)" ))
+                                .accessibilityLabel(Text("\((driver?.driver.name ?? "")):  \(driver?.team.name ?? "")" ))
                                 
-                            Text(driver.driver.name.components(separatedBy: " ")[1])
+                            Text(driver?.driver.name.components(separatedBy: " ")[1] ?? "")
                                 .font(.system(size: 36, weight: .bold))
-                                .foregroundColor(driver.team.color)
+                                .foregroundColor(driver?.team.color)
                                 .accessibilityHidden(true)
                         }
                        
@@ -70,8 +70,8 @@ struct CardDriver: View {
                             Text("Pos")
                                 .font(.system(size: 18, weight: .bold))
                                 .foregroundColor(.gray)
-                                .accessibilityLabel("Position \(driver.position)")
-                            Text("\(driver.position)".addZero)
+                                .accessibilityLabel("Position \(driver?.position ?? 0)")
+                            Text("\(driver?.position ?? 0)".addZero)
                                 .font(.system(size: 40, weight: .bold))
                                 .foregroundColor(.primary)
                                 .accessibilityHidden(true)
@@ -84,9 +84,9 @@ struct CardDriver: View {
                             Text("Pts")
                                 .font(.system(size: 18, weight: .bold))
                                 .foregroundColor(.gray)
-                                .accessibilityLabel("\(driver.points ?? 0) points")
+                                .accessibilityLabel("\(driver?.points ?? 0) points")
                                 
-                            Text("\(driver.points ?? 0)".addZero)
+                            Text("\(driver?.points ?? 0)".addZero)
                                 .font(.system(size: 40, weight: .bold))
                                 .foregroundColor(.primary)
                                 .accessibilityHidden(true)
@@ -95,18 +95,18 @@ struct CardDriver: View {
                         .frame(maxWidth: 330, alignment: .leading)
                         .padding(.leading, 30)
                         .padding(.bottom, 10)
-                
+
                         
                         // Driver Number
                         ZStack {
                             HStack {
                                 ZStack {
-                                    Text("\(driver.driver.number ?? 0)")
-                                        .accessibilityLabel("Driver Number \(driver.driver.number ?? 0)")
+                                    Text("\(driver?.driver.number ?? 0)")
+                                        .accessibilityLabel("Driver Number \(driver?.driver.number ?? 0)")
                                         .font(.system(size: 120, weight: .medium))
                                         .foregroundStyle(
                                             LinearGradient(
-                                                colors: [driver.team.color, driver.team.color.opacity(0.1)],
+                                                colors: [driver?.team.color ?? .clear, driver?.team.color.opacity(0.1) ?? .clear],
                                                 startPoint: .topLeading,
                                                 endPoint: .bottomTrailing
                                             )
@@ -114,7 +114,7 @@ struct CardDriver: View {
                                         .offset(x: -70)
                                     
                                     // image of driver
-                                    AsyncImage(url: URL(string: driver.driver.imageUrl)) { image in
+                                    AsyncImage(url: URL(string: driver?.driver.imageUrl ?? "")) { image in
                                         image
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
@@ -149,7 +149,7 @@ struct CardDriver: View {
             name: "Max Verstappen",
             number: 33,
             abbreviation: "VER",
-            imageUrl: "https://media.api-sports.io/formula-1/drivers/49.png"
+            imageUrl: "https://media.api-sports.io/formula-1/drivers/25.png"
         ),
         team: DriverModel.Team(id: 1, name: "Red Bull Racing", logo: "redbull", color: .red),
         points: 55,
@@ -157,9 +157,9 @@ struct CardDriver: View {
         behind: 0,
         season: 2023)
     
-   // let driver = StandingsPageViewmodel(model: driverModel)
     
     let d = DriverPageViewmodel(model: driver)
     
     CardDriver(driver: d)
+        .frame(height: 280)
 }

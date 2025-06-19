@@ -74,7 +74,7 @@ struct TeamStatsView: View {
                                             .accessibilityHidden(true)
                                         
                                         Text("\(team.position)".addZero)
-                                            .font(.system(size: 46, weight: .bold))
+                                            .font(.system(size: 44, weight: .bold))
                                             .accessibilityLabel("Position: \(team.position)")
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -85,7 +85,7 @@ struct TeamStatsView: View {
                                             .foregroundStyle(.secondary)
                                             .accessibilityHidden(true)
                                         Text(team.wins.addZero)
-                                            .font(.system(size: 46, weight: .bold))
+                                            .font(.system(size: 44, weight: .bold))
                                             .accessibilityLabel("Wins: \(team.wins)")
                                     }
                                     .frame(maxWidth: .infinity, alignment: .center)
@@ -95,8 +95,9 @@ struct TeamStatsView: View {
                                             .font(.system(size: 20))
                                             .foregroundStyle(.secondary)
                                             .accessibilityHidden(true)
+                                        
                                         Text("\(team.points)".addZero)
-                                            .font(.system(size: 46  , weight: .bold))
+                                            .font(.system(size: 44, weight: .bold))
                                             .accessibilityLabel("Points: \(team.points)")
                                         
                                     }

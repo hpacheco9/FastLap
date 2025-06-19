@@ -54,11 +54,3 @@ struct Standings: View {
         .toolbarTitleDisplayMode(.inline)
     }
 }
-
-
-#Preview {
- 
-    Standings(viewModel:StandingsViewModel(
-                    dependencies: .init(
-                        service: StandingsService(client: APIClient(session: URLSession(configuration: .default))))))
-}

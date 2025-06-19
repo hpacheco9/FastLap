@@ -22,4 +22,8 @@ struct TeamStatsModel {
     let fastestLaps: Int
     let color: Color
     
+
+    
 }
+
+

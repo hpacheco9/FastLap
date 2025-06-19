@@ -31,7 +31,7 @@ class DriverStatsViewmodel {
     
     @MainActor
     func loadData() async {
-
+        print(dependencies.driver?.driver.id ?? "Nenhum ID")
         guard let currentDriver = dependencies.driver else {
             state = .error
             return

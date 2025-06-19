@@ -8,7 +8,7 @@
 import SwiftUI
 import Foundation
 
-enum Status: String,  Decodable {
+enum Status: String,  Codable {
     case live = "Live"
     case soon = "Schedule"
     case completed = "Completed"
@@ -34,13 +34,7 @@ enum Status: String,  Decodable {
         switch self {
             case .live:
                 return .orange
-            case .soon:
-                return .secondary
-            case .completed:
-                return .secondary
-            case .cancelled:
-                return .secondary
-           case .postponed:
+            default:
                 return .secondary
         }
     }

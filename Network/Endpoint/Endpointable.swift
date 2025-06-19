@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol Endpointable {
     var path: String { get }
     var scheme: String { get }
@@ -30,7 +29,6 @@ extension Endpointable {
     }
     
     var url: URL? {
-        
         var components = URLComponents()
         components.scheme = scheme
         components.host = host
@@ -38,12 +36,11 @@ extension Endpointable {
         components.queryItems = parameters
         
         return components.url
-        
     }
     
     func urlRequest(url: URL) -> URLRequest {
         
-        var urlRequest = URLRequest(url: url)
+        var urlRequest = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy)
         urlRequest.httpMethod = method.rawValue
         headers.forEach { urlRequest.addValue($0.value, forHTTPHeaderField: $0.key) }
         

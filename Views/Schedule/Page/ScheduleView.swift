@@ -58,9 +58,3 @@ struct Schedule: View {
     }
 }
 
-
-#Preview {
-    Schedule(viewmodel: ScheduleViewModel(
-        dependencies: .init(
-            service: ScheduleService(client: APIClient(session: URLSession(configuration: .default))))))
-}

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DriversColletion: View {
     
-    
     @EnvironmentObject private var coordinator: Coordinator
     let drivers: [DriverPageViewmodel]
     
@@ -21,10 +20,8 @@ struct DriversColletion: View {
                          dependencies:
                                  .init(
                                      service: DriverStatsService(client: APIClient(session: URLSession(configuration: .default))), driver: driver))))
-                    }
                 }
+            }
         }
     }
 }
-
-

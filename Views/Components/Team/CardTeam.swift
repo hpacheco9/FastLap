@@ -15,7 +15,6 @@ struct CardTeam: View {
     
     var body: some View {
         
-        //Card
         ZStack {
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color.primary.opacity(0.1))
@@ -40,7 +39,6 @@ struct CardTeam: View {
             .padding(.top, 20)
             .padding(.bottom, 200)
             
-            // header
             VStack(alignment: .leading) {
                 Text(team.name)
                     .font(.system(size: 28, weight: .bold))
@@ -103,4 +101,11 @@ struct CardTeam: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(10)
     }
+}
+
+#Preview {
+    
+    let team = TeamPageViewmodel(model: TeamModel(id: 1, position: 1, points: 100, name: "Red Bull Racing", logo: "redbull", color: .red))
+    CardTeam(team: team)
+        .frame(height: 280)
 }
