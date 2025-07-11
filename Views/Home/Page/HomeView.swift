@@ -27,20 +27,17 @@ struct Home: View {
                 ScrollView {
                     VStack {
                         Header(title: viewModel.headerStandings, buttonTitle: viewModel.buttonSeeAll,
-                               action: {coordinator.push(page: .standings(viewmodel:
-                                                                                                                                                    StandingsViewModel(
-                                                                                                                                                     dependencies: .init(
-                                                                                                                                                                   service: StandingsService(
-                                                                                                                                                                       client: APIClient(session: URLSession(configuration: .default)),
-                                                                                                                                                                       standingsREpository: StandingsRepository(
-                                                                                                                                                                           driverRepository: DriverStandingsRepository(modelContext: modelContext),
-                                                                                                                                                                           teamStandings: TeamStandingsRepository(modelContext: modelContext)
-                                                                                                                                                                       )
-                                                                                                                                                                   )
-                                                                                                                                                         )
-                                                                                                                                                    )
-                                                                                                                                                 )
-                                                                                                                                             )})
+                               action: {coordinator.push(page: .standings(viewmodel: StandingsViewModel(
+                                        dependencies: .init( service: StandingsService(client: APIClient(session: URLSession(configuration: .default)),
+                                                standingsREpository: StandingsRepository(
+                                                driverRepository: DriverStandingsRepository(modelContext: modelContext),
+                                                teamStandings: TeamStandingsRepository(modelContext: modelContext)
+                                                )
+                                            )
+                                        )
+                                    )
+                                 )
+                             )})
                             .padding(.horizontal, 5)
                            
                         CardDriver(driver: driver)
@@ -97,9 +94,9 @@ struct Home: View {
        .toolbar {
            ToolbarItem(placement: .topBarTrailing) {
                Button(action: {
-                   print("Button tapped")
+                   viewModel.requestNotificationPermission()
                }) {
-                   Image(systemName: "bell.fill")
+                   Image(systemName: viewModel.notificationsEnabled ?  "bell.fill" : "bell.slash" )
                }
            }
        }
@@ -117,7 +114,7 @@ struct Home: View {
         viewModel: HomeViewModel(
             dependencies: .init(
                 service: Homeservice(client: APIClient(session: URLSession(configuration: .default)),
-                                     homeRepository: HomeRepository(standingsRepsitory: DriverStandingsRepository(modelContext: modelContext), scheduleRepository: ScheduleRepository(modelContext: modelContext)))
+                                     homeRepository: HomeRepository(standingsRepsitory: DriverStandingsRepository(modelContext: modelContext), scheduleRepository: ScheduleRepository(modelContext: modelContext))), notificationService: NotificationService(notification: UNUserNotificationCenter.current())
             )
         )
     )

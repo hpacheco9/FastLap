@@ -19,7 +19,7 @@ class StandingsViewModel {
     }
     
     struct Dependencies {
-        let service: StandingsServiceProtocol
+        let service: StandingsServiceProtocol & StandingsServiceStoreProtocol
     }
     
     private let dependencies: Dependencies
@@ -42,28 +42,29 @@ class StandingsViewModel {
             let (teamResponse, driverResponse) = try await (teamsData, driversData)
             
             
-            guard !teamResponse.isEmpty else {
+            guard !teamResponse.response.isEmpty else {
                 state = .empty
                 return
             }
             
-            guard !driverResponse.isEmpty else {
+            guard !driverResponse.response.isEmpty else {
                 state = .empty
                 return
             }
             
             
-            let teams = createTEams(teamResponse: teamResponse)
+            let teamsDataModel = try dependencies.service.insertTeamsRankings(teamResponse.response)
+            let driverDataModel = try dependencies.service.insertDriversRankings(driverResponse.response)
             
+            let teams = createTEams(teamResponse: teamsDataModel)
             
-            let drivers = createDrivers(driverResponse: driverResponse)
+            let drivers = createDrivers(driverResponse: driverDataModel)
     
             state = .loaded(drivers, teams)
             
         } catch {
             do {
                 let data = try dependencies.service.getStandingsData()
-                
                 let drivers = createDrivers(driverResponse: data.drivers)
                 let teams = createTEams(teamResponse: data.teams)
                 

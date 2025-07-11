@@ -18,10 +18,10 @@ protocol HomeRepositoryProtocol {
 
 class HomeRepository {
     
-    let standingsRepsitory: DriverStandingsRepositoryProtocol
-    let scheduleRepository: ScheduleRepository
+    let standingsRepsitory: DriverStandingsRepositoryProtocol?
+    let scheduleRepository: ScheduleRepository?
     
-   init(standingsRepsitory: DriverStandingsRepositoryProtocol, scheduleRepository: ScheduleRepository) {
+   init(standingsRepsitory: DriverStandingsRepositoryProtocol?, scheduleRepository: ScheduleRepository?) {
         self.standingsRepsitory = standingsRepsitory
         self.scheduleRepository = scheduleRepository
     }
@@ -29,18 +29,36 @@ class HomeRepository {
 
 extension HomeRepository: HomeRepositoryProtocol {
     func insertStanding(_ standings: [RankingsAPIModel.Response], season: Int) throws -> [StandingDataModel] {
-        return try standingsRepsitory.addStandings(standings, season:  season)
+        guard let repository = self.standingsRepsitory else {
+            throw HomerRepositoryError.noStandingsRepository
+        }
+        return try repository.addStandings(standings, season:  season)
     }
     
     func fetchStandings(season: Int) throws -> [StandingDataModel] {
-        return try standingsRepsitory.fetchStandings(season: season)
+        guard let repository = self.standingsRepsitory else {
+            throw HomerRepositoryError.noStandingsRepository
+        }
+        return try repository.fetchStandings(season: season)
     }
     
     func insertSchedule(_ schedule: [ScheduleAPIModel.Response?]) throws -> [ScheduleDataModel] {
-        return try scheduleRepository.addSchedule(schedule, season: 2023)
+        guard let repository = self.scheduleRepository else {
+            throw HomerRepositoryError.noScheduleRepository
+        }
+        return try repository.addSchedule(schedule, season: 2023)
     }
     
     func fetchSchedule(season: Int) throws -> [ScheduleDataModel] {
-        return try scheduleRepository.fetchSchedule(season: season)
+        guard let repository = self.scheduleRepository else {
+            throw HomerRepositoryError.noScheduleRepository
+        }
+        return try repository.fetchSchedule(season: season)
     }
+}
+
+
+enum HomerRepositoryError : Error {
+    case noStandingsRepository
+    case noScheduleRepository
 }

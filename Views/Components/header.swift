@@ -28,7 +28,7 @@ struct Header: View {
            }
             .foregroundStyle(.orange)
             .font(Font.system(size: 18, weight: .medium))
-            .accessibilityLabel(buttonTitle + "button")
+            .accessibilityLabel(buttonTitle)
                     
            
         }

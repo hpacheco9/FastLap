@@ -70,7 +70,7 @@ struct Main: View {
             homeViewModel = HomeViewModel(
                 dependencies: .init(
                     service: Homeservice(client: APIClient(session: URLSession(configuration: .default)),
-                                         homeRepository: HomeRepository(standingsRepsitory: DriverStandingsRepository(modelContext: modelContext), scheduleRepository: ScheduleRepository(modelContext: modelContext)))
+                                         homeRepository: HomeRepository(standingsRepsitory: DriverStandingsRepository(modelContext: modelContext), scheduleRepository: ScheduleRepository(modelContext: modelContext))), notificationService: NotificationService(notification: UNUserNotificationCenter.current())
                 )
             )
         }

@@ -53,6 +53,7 @@ extension ScheduleRepository {
         return fetchedSchedule
     }
     
+
     func addSchedule(_ schedule: [ScheduleAPIModel.Response?], season: Int) throws -> [ScheduleDataModel] {
         guard !schedule.isEmpty else { throw RepositoryError.emptyContent }
         

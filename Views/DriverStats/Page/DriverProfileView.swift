@@ -144,7 +144,7 @@ struct DriverProfile: View {
                                                 .font(.system(size: 16))
                                                 .foregroundStyle(.secondary)
                                                 .accessibilityHidden(true)
-                                            Text("\(driver.total_wins)")
+                                            Text("\(driver.total_wins)".addZero)
                                                 .font(.system(size: 40, weight: .bold))
                                                 .accessibilityLabel(Text("Total Wins: \(driver.total_wins)"))
                                             
@@ -156,7 +156,7 @@ struct DriverProfile: View {
                                                 .font(.system(size: 16))
                                                 .foregroundStyle(.secondary)
                                                 .accessibilityHidden(true)
-                                            Text("\(driver.podiums)")
+                                            Text("\(driver.podiums)".addZero)
                                                 .font(.system(size: 40, weight: .bold))
                                                 .accessibilityLabel(Text("Podiums: \(driver.podiums)"))
                                         }
@@ -167,7 +167,7 @@ struct DriverProfile: View {
                                                 .font(.system(size: 16))
                                                 .foregroundStyle(.secondary)
                                                 .accessibilityHidden(true)
-                                            Text("\(driver.gpEntries)")
+                                            Text("\(driver.gpEntries)".addZero)
                                                 .font(.system(size: 40, weight: .bold))
                                                 .accessibilityLabel(Text("GPs Entered: \(driver.gpEntries)"))
                                         }

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import NotificationCenter
 
 @Observable
 class HomeViewModel {
@@ -19,7 +19,8 @@ class HomeViewModel {
     }
     
     struct Dependencies {
-        let service: HomeServiceProtocol
+        let service: any (HomeServiceProtocol & HomeServiceStoreProtocol)
+        let notificationService: NotificationServiceProtocol
     }
     
     let headerUpcoming = LocalizationKey.Header.upcoming.localized
@@ -30,11 +31,21 @@ class HomeViewModel {
     
     private let dependencies: Dependencies
     var state: State = .loading
+    var notificationsEnabled: Bool { dependencies.notificationService.isNotificationsEnabled   }
     
     init (dependencies: Dependencies) {
         self.dependencies = dependencies
-
     }
+    
+    
+    func requestNotificationPermission() {
+        if notificationsEnabled {
+           dependencies.notificationService.removeAllNotifications()
+        } else {
+            dependencies.notificationService.verifyNotificationPermission()
+        }
+    }
+
     
     @MainActor
     func loadData() async {
@@ -44,12 +55,12 @@ class HomeViewModel {
             
             let (drivers, races) = try await (rankings, schedule)
             
-            guard !races.isEmpty else {
+            guard !races.response.isEmpty else {
                 state = .empty
                 return
             }
     
-            let scheduleResponses = races.compactMap({ $0 })
+            let scheduleResponses = races.response.compactMap({ $0 })
             
             let isoFormatter: ISO8601DateFormatter = {
                 let f = ISO8601DateFormatter()
@@ -57,8 +68,13 @@ class HomeViewModel {
                 return f
             }()
             
-            let upcomingRace = createScheduleModel(scheduleResponses: scheduleResponses, now: Date(), isoFormatter: isoFormatter)
-            let driver = createDriverModel(drivers: drivers)
+            let driversDataModel = try dependencies.service.insertRankings(drivers.response)
+            let scheduleDataModel = try dependencies.service.insertSchedule(scheduleResponses)
+            
+            
+            let upcomingRace = createScheduleModel(scheduleResponses: scheduleDataModel, now: Date(), isoFormatter: isoFormatter)
+            let driver = createDriverModel(drivers: driversDataModel)
+            
             
             state = .loaded(driver, upcomingRace)
         }
@@ -79,11 +95,11 @@ class HomeViewModel {
                 
                 state = .loaded(driver, race)
                 
-                
             } catch {
                 state = .error
             }
         }
+        
         func createDriverModel(drivers: [StandingDataModel]) -> DriverPageViewmodel? {
             guard let response = drivers.first else {
                 return nil
@@ -109,7 +125,6 @@ class HomeViewModel {
                 behind: response.behind,
                 season: response.season
             ))
-            
             return model
         }
         
@@ -117,10 +132,11 @@ class HomeViewModel {
             let nextRace = scheduleResponses.compactMap({ race -> (Date, ScheduleDataModel)? in
                 guard let ds = race.date,
                       let date = isoFormatter.date(from: ds),
-                      date >= now
+                      date >= now.addingTimeInterval(-3600) 
                 else { return nil }
                 return (date, race)
             }).min(by: { $0.0 < $1.0 })?.1
+
             
             if let nextRace = nextRace,
                let ds = nextRace.date,
@@ -157,6 +173,15 @@ class HomeViewModel {
                     status: nextRace.status
                 ))
                 
+                let date = "\(upcomingRace.day)/\(upcomingRace.month)/\(upcomingRace.year) \(upcomingRace.time)"
+                let formatter = DateFormatter()
+                formatter.dateFormat = "dd/MM/yy HH:mm"
+                formatter.timeZone = TimeZone.current
+                let notification = Notification(id: upcomingRace.id, title: "Grand Prix of \(upcomingRace.country)", subtitle: "The \(upcomingRace.type) is about to start", date: formatter.date(from: date))
+                
+                dependencies.notificationService.scheduleNotification(data: notification)
+                
+         
                 return upcomingRace
             }
             return nil

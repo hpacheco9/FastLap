@@ -27,7 +27,7 @@ class DriverProfilePageViewmodel {
     
     lazy var gpEntries: Int  = model.gpEntries
     
-    lazy var total_wins: Int  = model.wins
+    lazy var total_wins: Int  = model.total_wins
     
     lazy var points: Int = model.points
     

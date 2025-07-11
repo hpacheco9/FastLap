@@ -10,7 +10,6 @@ import Foundation
 
 @Observable
 class ScheduleViewModel {
-    
     enum State {
         case loading
         case loaded([SchedulePageViewmodel], [SchedulePageViewmodel])
@@ -24,7 +23,7 @@ class ScheduleViewModel {
     }
     
     struct Dependencies {
-        let service: ScheduleServiceProtocol
+        let service: ScheduleServiceProtocol & ScheduleServiceStoreProtocol
     }
     
     let title = LocalizationKey.Title.schedule.localized
@@ -43,12 +42,12 @@ class ScheduleViewModel {
             
             let data = try await dependencies.service.fetchSchedule()
             
-            guard !data.isEmpty else {
+            guard !data.response.isEmpty else {
                 state = .empty
                 return
             }
             
-            let responses = data.compactMap({ $0 })
+            let responses = data.response.compactMap({ $0 })
             
             let isoFormatter: ISO8601DateFormatter = {
                 let f = ISO8601DateFormatter()
@@ -57,11 +56,13 @@ class ScheduleViewModel {
             }()
 
             let now = Date()
+            
+           let modelResponses = try dependencies.service.insertSchedule(schedule: responses, season: 2023)
 
             var lastPastRaceByCircuit   = [Int: ScheduleDataModel]()
             var nextFutureRaceByCircuit = [Int: ScheduleDataModel]()
 
-            for race in responses {
+            for race in modelResponses {
                 guard
                     let ds = race.date,
                     let date  = isoFormatter.date(from: ds)
@@ -71,8 +72,7 @@ class ScheduleViewModel {
 
                 let circuitId = race.circuit.id
 
-                if date <= now {
-                    
+                if date <= now.addingTimeInterval(-3600) {
                     if let existing = lastPastRaceByCircuit[circuitId],
                        let es = existing.date,
                        let raceDate = isoFormatter.date(from: es),
@@ -127,12 +127,10 @@ class ScheduleViewModel {
                     let circuitId = race.circuit.id
 
                     if date <= now {
-                        
                         if let existing = lastPastRaceByCircuit[circuitId],
                            let es = existing.date,
                            let raceDate = isoFormatter.date(from: es),
                            raceDate > date {
-                            
                         } else {
                             lastPastRaceByCircuit[circuitId] = race
                         }
@@ -187,7 +185,6 @@ class ScheduleViewModel {
                             name: item.circuit.name,
                             image: item.circuit.assetForCircuitId(item.circuit.id)
                         ),
-                        
                         type: item.type.abreviation,
                         day: day,
                         month: month,

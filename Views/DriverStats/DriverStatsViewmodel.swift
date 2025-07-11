@@ -50,6 +50,8 @@ class DriverStatsViewmodel {
                 return
             }
             
+            print(first.total_wins)
+            
             let driver = DriverProfilePageViewmodel(
                 model: DriverStatsModel(
                     id: first.id,
@@ -71,7 +73,7 @@ class DriverStatsViewmodel {
                     gpEntries: first.grands_prix_entered ?? 0
                 )
             )
-            
+            print(driver.total_wins)
             state = .loaded(driver)
         }
         catch {

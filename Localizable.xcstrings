@@ -5,7 +5,14 @@
 
     },
     " %lld Points " : {
-
+      "localizations" : {
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pontos"
+          }
+        }
+      }
     },
     "%@" : {
 
@@ -44,6 +51,12 @@
             "state" : "translated",
             "value" : "Position"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posição"
+          }
         }
       }
     },
@@ -55,6 +68,12 @@
             "state" : "translated",
             "value" : "see all >"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ver tudo >"
+          }
         }
       }
     },
@@ -65,7 +84,14 @@
 
     },
     "Driver Number" : {
-
+      "localizations" : {
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número Piloto"
+          }
+        }
+      }
     },
     "Driver Number %lld" : {
 
@@ -128,6 +154,12 @@
             "state" : "translated",
             "value" : "Standings"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classificação"
+          }
         }
       }
     },
@@ -153,13 +185,20 @@
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Casa"
+            "value" : "Inicio"
           }
         }
       }
     },
     "Name" : {
-
+      "localizations" : {
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome"
+          }
+        }
+      }
     },
     "No Past races" : {
 
@@ -190,7 +229,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Never miss a race with our interactivecalendar."
+            "value" : "Never miss a race with our interactive calendar."
           }
         }
       }
@@ -265,7 +304,14 @@
 
     },
     "Schedule" : {
-
+      "localizations" : {
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendário"
+          }
+        }
+      }
     },
     "Since Debut" : {
 
@@ -280,6 +326,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Standings"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classificação"
           }
         }
       }
@@ -298,6 +350,12 @@
             "state" : "translated",
             "value" : "Home"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio"
+          }
         }
       }
     },
@@ -309,6 +367,12 @@
             "state" : "translated",
             "value" : "Schedule"
           }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calendário"
+          }
         }
       }
     },
@@ -319,6 +383,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Championship"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Campeonato"
           }
         }
       }
@@ -336,10 +406,24 @@
 
     },
     "Type" : {
-
+      "localizations" : {
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo"
+          }
+        }
+      }
     },
     "Wins" : {
-
+      "localizations" : {
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vitórias"
+          }
+        }
+      }
     },
     "Wins: %@" : {
 
